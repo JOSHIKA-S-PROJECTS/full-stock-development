@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Routing Demo</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
+
+        nav {
+            background: #2563eb;
+            padding: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        #content {
+            padding: 30px;
+        }
+
+        .page {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" data-route>Home</a>
+        <a href="/about" data-route>About</a>
+        <a href="/services" data-route>Services</a>
+        <a href="/contact" data-route>Contact</a>
+    </nav>
+
+    <div id="content"></div>
+
+    <script>
+        const routes = {
+            "/": `
+                <div class="page">
+                    <h1>Home</h1>
+                    <p>Welcome to the Home Page.</p>
+                </div>
+            `,
+            "/about": `
+                <div class="page">
+                    <h1>About</h1>
+                    <p>This is the About Page.</p>
+                </div>
+            `,
+            "/services": `
+                <div class="page">
+                    <h1>Services</h1>
+                    <p>Explore our services.</p>
+                </div>
+            `,
+            "/contact": `
+                <div class="page">
+                    <h1>Contact</h1>
+                    <p>Email: contact@example.com</p>
+                </div>
+            `
+        };
+
+        function renderPage(path) {
+            const content = document.getElementById("content");
+
+            content.innerHTML = routes[path] || `
+                <div class="page">
+                    <h1>404</h1>
+                    <p>Page Not Found</p>
+                </div>
+            `;
+        }
+
+        function navigate(path) {
+            history.pushState({}, "", path);
+            renderPage(path);
+        }
+
+        document.addEventListener("click", (e) => {
+            if (e.target.matches("[data-route]")) {
+                e.preventDefault();
+                navigate(e.target.getAttribute("href"));
+            }
+        });
+
+        window.addEventListener("popstate", () => {
+            renderPage(window.location.pathname);
+        });
+
+        renderPage(window.location.pathname);
+    </script>
+
+</body>
+</html>

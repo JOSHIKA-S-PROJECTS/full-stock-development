@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js Application</title>
+
+    <!-- Vue.js CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .app-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #42b883;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #369b6e;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app" class="app-container">
+    <h1>{{ title }}</h1>
+
+    <input
+        type="text"
+        v-model="name"
+        placeholder="Enter your name"
+    >
+
+    <p>Hello, {{ name || 'Guest' }}!</p>
+
+    <button @click="count++">
+        Clicked {{ count }} times
+    </button>
+</div>
+
+<script>
+const { createApp } = Vue;
+
+createApp({
+    data() {
+        return {
+            title: "Vue.js Demo App",
+            name: "",
+            count: 0
+        };
+    }
+}).mount("#app");
+</script>
+
+</body>
+</html>

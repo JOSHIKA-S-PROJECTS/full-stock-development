@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reusable UI Components</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f4f4;
+    padding:30px;
+}
+
+/* Container */
+.container{
+    max-width:1000px;
+    margin:auto;
+}
+
+/* Section */
+.section{
+    margin-bottom:40px;
+}
+
+.section h2{
+    margin-bottom:15px;
+    color:#333;
+}
+
+/* Buttons */
+.btn{
+    border:none;
+    padding:12px 20px;
+    border-radius:6px;
+    cursor:pointer;
+    color:white;
+    margin-right:10px;
+}
+
+.btn-primary{
+    background:#3498db;
+}
+
+.btn-success{
+    background:#27ae60;
+}
+
+.btn-danger{
+    background:#e74c3c;
+}
+
+/* Input */
+.input-group{
+    margin:15px 0;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:5px;
+}
+
+.input-group input{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+/* Card */
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card h3{
+    margin-bottom:10px;
+}
+
+/* Alert */
+.alert{
+    padding:15px;
+    border-radius:6px;
+    margin:10px 0;
+    color:white;
+}
+
+.alert-success{
+    background:#27ae60;
+}
+
+.alert-warning{
+    background:#f39c12;
+}
+
+.alert-danger{
+    background:#e74c3c;
+}
+
+/* Navbar */
+.navbar{
+    background:#2c3e50;
+    padding:15px;
+    border-radius:8px;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    margin-right:20px;
+}
+
+/* Modal */
+.modal{
+    background:rgba(0,0,0,0.5);
+    padding:40px;
+    border-radius:10px;
+}
+
+.modal-content{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Navbar -->
+    <div class="section">
+        <h2>Navbar Component</h2>
+        <nav class="navbar">
+            <a href="#">Home</a>
+            <a href="#">Products</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+        </nav>
+    </div>
+
+    <!-- Buttons -->
+    <div class="section">
+        <h2>Button Components</h2>
+        <button class="btn btn-primary">Primary</button>
+        <button class="btn btn-success">Success</button>
+        <button class="btn btn-danger">Danger</button>
+    </div>
+
+    <!-- Input -->
+    <div class="section">
+        <h2>Input Component</h2>
+        <div class="input-group">
+            <label>Username</label>
+            <input type="text" placeholder="Enter username">
+        </div>
+    </div>
+
+    <!-- Card -->
+    <div class="section">
+        <h2>Card Component</h2>
+        <div class="card">
+            <h3>Card Title</h3>
+            <p>This is a reusable card component.</p>
+        </div>
+    </div>
+
+    <!-- Alerts -->
+    <div class="section">
+        <h2>Alert Components</h2>
+        <div class="alert alert-success">
+            Success! Operation completed.
+        </div>
+
+        <div class="alert alert-warning">
+            Warning! Check your input.
+        </div>
+
+        <div class="alert alert-danger">
+            Error! Something went wrong.
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="section">
+        <h2>Modal Component</h2>
+
+        <div class="modal">
+            <div class="modal-content">
+                <h3>Modal Title</h3>
+                <p>This is a reusable modal window.</p>
+                <br>
+                <button class="btn btn-primary">Close</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Mobile Layout</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+/* Header */
+header {
+    background: #2563eb;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+}
+
+/* Navigation */
+nav {
+    background: #1e40af;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+nav ul li {
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 15px;
+}
+
+nav ul li a:hover {
+    background: #1d4ed8;
+}
+
+/* Main Content */
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    gap: 15px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Tablet Layout */
+@media (min-width: 768px) {
+    nav ul {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    nav ul li {
+        border-bottom: none;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Desktop Layout */
+@media (min-width: 1024px) {
+    .container {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1200px;
+        margin: auto;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Responsive Mobile Layout</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Products</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</nav>
+
+<section class="container">
+
+    <div class="card">
+        <h2>Card 1</h2>
+        <p>Responsive content card for mobile devices.</p>
+    </div>
+
+    <div class="card">
+        <h2>Card 2</h2>
+        <p>This layout adjusts automatically for tablets and desktops.</p>
+    </div>
+
+    <div class="card">
+        <h2>Card 3</h2>
+        <p>Built using mobile-first design principles.</p>
+    </div>
+
+    <div class="card">
+        <h2>Card 4</h2>
+        <p>Uses Flexbox and CSS Grid for responsiveness.</p>
+    </div>
+
+    <div class="card">
+        <h2>Card 5</h2>
+        <p>Optimized for all screen sizes.</p>
+    </div>
+
+    <div class="card">
+        <h2>Card 6</h2>
+        <p>Modern, clean, and lightweight design.</p>
+    </div>
+
+</section>
+
+</body>
+</html>

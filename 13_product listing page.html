@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Listing Page</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+/* Header */
+header{
+    background:#2c3e50;
+    color:#fff;
+    text-align:center;
+    padding:20px;
+}
+
+header h1{
+    font-size:2rem;
+}
+
+/* Product Grid */
+.container{
+    max-width:1200px;
+    margin:30px auto;
+    padding:0 20px;
+}
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+    gap:25px;
+}
+
+/* Product Card */
+.product-card{
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    transition:transform 0.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-5px);
+}
+
+.product-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.product-info{
+    padding:15px;
+}
+
+.product-title{
+    font-size:1.2rem;
+    margin-bottom:10px;
+    color:#333;
+}
+
+.product-description{
+    color:#666;
+    font-size:0.9rem;
+    margin-bottom:10px;
+}
+
+.product-price{
+    color:#27ae60;
+    font-size:1.3rem;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    background:#3498db;
+    color:white;
+    cursor:pointer;
+    font-size:1rem;
+}
+
+.btn:hover{
+    background:#2980b9;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Our Products</h1>
+</header>
+
+<div class="container">
+    <div class="product-grid">
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x220" alt="Product">
+            <div class="product-info">
+                <h3 class="product-title">Wireless Headphones</h3>
+                <p class="product-description">
+                    High-quality wireless headphones with noise cancellation.
+                </p>
+                <div class="product-price">$99.99</div>
+                <button class="btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x220" alt="Product">
+            <div class="product-info">
+                <h3 class="product-title">Smart Watch</h3>
+                <p class="product-description">
+                    Track fitness, notifications, and health metrics.
+                </p>
+                <div class="product-price">$149.99</div>
+                <button class="btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x220" alt="Product">
+            <div class="product-info">
+                <h3 class="product-title">Laptop Backpack</h3>
+                <p class="product-description">
+                    Durable backpack with multiple compartments.
+                </p>
+                <div class="product-price">$49.99</div>
+                <button class="btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x220" alt="Product">
+            <div class="product-info">
+                <h3 class="product-title">Bluetooth Speaker</h3>
+                <p class="product-description">
+                    Portable speaker with powerful sound quality.
+                </p>
+                <div class="product-price">$79.99</div>
+                <button class="btn">Add to Cart</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

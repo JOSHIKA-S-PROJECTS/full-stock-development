@@ -1,0 +1,178 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login & Signup UI</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+}
+
+.container{
+    width:400px;
+    max-width:90%;
+    background:#fff;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    overflow:hidden;
+}
+
+.form-container{
+    padding:40px;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#333;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:6px;
+    color:#555;
+    font-size:14px;
+}
+
+.input-group input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+    transition:0.3s;
+}
+
+.input-group input:focus{
+    border-color:#4f46e5;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#4f46e5;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#4338ca;
+}
+
+.switch-form{
+    text-align:center;
+    margin-top:15px;
+}
+
+.switch-form a{
+    color:#4f46e5;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.hidden{
+    display:none;
+}
+
+@media(max-width:480px){
+    .form-container{
+        padding:25px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Login Form -->
+    <div class="form-container" id="loginForm">
+        <h2>Login</h2>
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" placeholder="Enter your email">
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" placeholder="Enter your password">
+        </div>
+
+        <button class="btn">Login</button>
+
+        <div class="switch-form">
+            Don't have an account?
+            <a href="#" onclick="showSignup()">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="form-container hidden" id="signupForm">
+        <h2>Create Account</h2>
+
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" placeholder="Enter your name">
+        </div>
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" placeholder="Enter your email">
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" placeholder="Create password">
+        </div>
+
+        <div class="input-group">
+            <label>Confirm Password</label>
+            <input type="password" placeholder="Confirm password">
+        </div>
+
+        <button class="btn">Sign Up</button>
+
+        <div class="switch-form">
+            Already have an account?
+            <a href="#" onclick="showLogin()">Login</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function showSignup() {
+    document.getElementById("loginForm").classList.add("hidden");
+    document.getElementById("signupForm").classList.remove("hidden");
+}
+
+function showLogin() {
+    document.getElementById("signupForm").classList.add("hidden");
+    document.getElementById("loginForm").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>

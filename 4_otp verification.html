@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Verification</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+}
+
+.container{
+    background:#fff;
+    padding:35px;
+    border-radius:15px;
+    width:400px;
+    max-width:90%;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h2{
+    margin-bottom:10px;
+    color:#333;
+}
+
+p{
+    color:#666;
+    margin-bottom:20px;
+}
+
+.otp-inputs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.otp-inputs input{
+    width:50px;
+    height:50px;
+    text-align:center;
+    font-size:20px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#4f46e5;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+button:hover{
+    background:#4338ca;
+}
+
+.message{
+    margin-top:15px;
+    font-weight:bold;
+}
+
+.success{
+    color:green;
+}
+
+.error{
+    color:red;
+}
+
+.resend{
+    margin-top:15px;
+    color:#4f46e5;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>OTP Verification</h2>
+    <p>Enter the 6-digit OTP sent to your mobile/email.</p>
+
+    <div class="otp-inputs">
+        <input type="text" maxlength="1" class="otp">
+        <input type="text" maxlength="1" class="otp">
+        <input type="text" maxlength="1" class="otp">
+        <input type="text" maxlength="1" class="otp">
+        <input type="text" maxlength="1" class="otp">
+        <input type="text" maxlength="1" class="otp">
+    </div>
+
+    <button onclick="verifyOTP()">Verify OTP</button>
+
+    <div class="resend" onclick="generateOTP()">
+        Resend OTP
+    </div>
+
+    <div id="message" class="message"></div>
+</div>
+
+<script>
+let generatedOTP = "";
+
+function generateOTP() {
+    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Demo only
+    alert("Demo OTP: " + generatedOTP);
+
+    document.getElementById("message").innerHTML = "";
+}
+
+generateOTP();
+
+const otpInputs = document.querySelectorAll(".otp");
+
+otpInputs.forEach((input, index) => {
+    input.addEventListener("input", () => {
+        if(input.value.length === 1 && index < otpInputs.length - 1){
+            otpInputs[index + 1].focus();
+        }
+    });
+
+    input.addEventListener("keydown", (e) => {
+        if(e.key === "Backspace" &&
+           input.value === "" &&
+           index > 0){
+            otpInputs[index - 1].focus();
+        }
+    });
+});
+
+function verifyOTP() {
+
+    let enteredOTP = "";
+
+    otpInputs.forEach(input => {
+        enteredOTP += input.value;
+    });
+
+    const message = document.getElementById("message");
+
+    if(enteredOTP.length !== 6){
+        message.className = "message error";
+        message.innerText = "Please enter all 6 digits.";
+        return;
+    }
+
+    if(enteredOTP === generatedOTP){
+        message.className = "message success";
+        message.innerText = "OTP Verified Successfully!";
+    } else {
+        message.className = "message error";
+        message.innerText = "Invalid OTP. Please try again.";
+    }
+}
+</script>
+
+</body>
+</html>
