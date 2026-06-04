@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notification API</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    input, textarea, button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    #result {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background: #f9f9f9;
+    }
+</style>
+</head>
+<body>
+
+<h2>Create Notification</h2>
+
+<input type="text" id="title" placeholder="Notification Title">
+
+<textarea id="message"
+          placeholder="Notification Message">
+</textarea>
+
+<button onclick="sendNotification()">
+    Send Notification
+</button>
+
+<div id="result"></div>
+
+<script>
+async function sendNotification() {
+
+    const title =
+        document.getElementById("title").value;
+
+    const message =
+        document.getElementById("message").value;
+
+    if (!title || !message) {
+        alert("Please fill all fields.");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:3000/api/notifications",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type":
+                    "application/json"
+                },
+                body: JSON.stringify({
+                    title,
+                    message
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        document.getElementById("result")
+            .innerHTML =
+            `<p>${result.message}</p>`;
+
+    } catch(error) {
+
+        document.getElementById("result")
+            .innerHTML =
+            `<p>Error: ${error.message}</p>`;
+    }
+}
+</script>
+
+</body>
+</html>

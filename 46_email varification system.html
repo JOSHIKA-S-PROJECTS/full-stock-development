@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Verification System</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    input, button {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+    }
+
+    .message {
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+</style>
+</head>
+<body>
+
+<h2>Email Verification System</h2>
+
+<input type="email" id="email" placeholder="Enter Email Address">
+
+<button onclick="sendVerificationCode()">
+    Send Verification Code
+</button>
+
+<input type="text" id="verificationCode"
+       placeholder="Enter Verification Code">
+
+<button onclick="verifyCode()">
+    Verify Email
+</button>
+
+<div id="result"></div>
+
+<script>
+let generatedCode = "";
+
+function generateCode() {
+    return Math.floor(
+        100000 + Math.random() * 900000
+    ).toString();
+}
+
+function sendVerificationCode() {
+
+    const email =
+        document.getElementById("email").value;
+
+    const result =
+        document.getElementById("result");
+
+    if (!email) {
+        result.className = "message error";
+        result.innerHTML =
+            "Please enter an email address.";
+        return;
+    }
+
+    generatedCode = generateCode();
+
+    // Simulated email sending
+    console.log(
+        "Verification code sent to:",
+        email,
+        generatedCode
+    );
+
+    result.className = "message success";
+    result.innerHTML =
+        "Verification code sent successfully! " +
+        "(Check browser console for demo code)";
+}
+
+function verifyCode() {
+
+    const userCode =
+        document.getElementById(
+            "verificationCode"
+        ).value;
+
+    const result =
+        document.getElementById("result");
+
+    if (userCode === generatedCode) {
+
+        result.className = "message success";
+        result.innerHTML =
+            "✅ Email verified successfully!";
+
+    } else {
+
+        result.className = "message error";
+        result.innerHTML =
+            "❌ Invalid verification code.";
+    }
+}
+</script>
+
+</body>
+</html>

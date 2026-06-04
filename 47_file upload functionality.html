@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Upload</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    .container {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px;
+    }
+
+    input[type="file"] {
+        margin: 15px 0;
+    }
+
+    button {
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    #fileInfo {
+        margin-top: 20px;
+        padding: 10px;
+        background: #f4f4f4;
+        border-radius: 5px;
+    }
+
+    img {
+        max-width: 100%;
+        margin-top: 15px;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+
+<h2>File Upload Functionality</h2>
+
+<div class="container">
+    <input type="file" id="fileInput">
+
+    <button onclick="uploadFile()">
+        Upload File
+    </button>
+
+    <div id="fileInfo"></div>
+
+    <img id="preview" style="display:none;">
+</div>
+
+<script>
+function uploadFile() {
+
+    const fileInput =
+        document.getElementById("fileInput");
+
+    const file =
+        fileInput.files[0];
+
+    const fileInfo =
+        document.getElementById("fileInfo");
+
+    if (!file) {
+        fileInfo.innerHTML =
+            "<p>Please select a file.</p>";
+        return;
+    }
+
+    fileInfo.innerHTML = `
+        <h3>File Details</h3>
+        <p><strong>Name:</strong> ${file.name}</p>
+        <p><strong>Type:</strong> ${file.type}</p>
+        <p><strong>Size:</strong> ${(file.size / 1024).toFixed(2)} KB</p>
+    `;
+
+    // Image Preview
+    if (file.type.startsWith("image/")) {
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const preview =
+                document.getElementById("preview");
+
+            preview.src = e.target.result;
+            preview.style.display = "block";
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Middleware Example</title>
+
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    button{
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    #logs{
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        background: #f8f8f8;
+        min-height: 200px;
+    }
+</style>
+</head>
+<body>
+
+<h2>API Middleware Simulation</h2>
+
+<button onclick="sendRequest()">Call API</button>
+
+<div id="logs"></div>
+
+<script>
+const logs = document.getElementById("logs");
+
+function log(message){
+    logs.innerHTML += `<p>${message}</p>`;
+}
+
+/* Middleware 1: Logger */
+function logger(req, next){
+    log("📋 Logger Middleware Executed");
+    log("URL: " + req.url);
+    next();
+}
+
+/* Middleware 2: Authentication */
+function authenticate(req, next){
+    if(req.token === "valid-token"){
+        log("✅ Authentication Success");
+        next();
+    }else{
+        log("❌ Authentication Failed");
+    }
+}
+
+/* Middleware 3: Validation */
+function validate(req, next){
+    if(req.url){
+        log("✅ Request Validation Passed");
+        next();
+    }else{
+        log("❌ Invalid Request");
+    }
+}
+
+/* API Handler */
+function apiHandler(req){
+    log("🚀 API Handler Executed");
+
+    const response = {
+        status: 200,
+        message: "User data fetched successfully"
+    };
+
+    log("📦 Response: " + response.message);
+}
+
+/* Middleware Engine */
+function runMiddleware(req, middlewares, handler){
+    let index = 0;
+
+    function next(){
+        if(index < middlewares.length){
+            const middleware = middlewares[index++];
+            middleware(req, next);
+        } else {
+            handler(req);
+        }
+    }
+
+    next();
+}
+
+/* API Request */
+function sendRequest(){
+
+    logs.innerHTML = "";
+
+    const request = {
+        url: "/api/users",
+        method: "GET",
+        token: "valid-token"
+    };
+
+    runMiddleware(
+        request,
+        [
+            logger,
+            authenticate,
+            validate
+        ],
+        apiHandler
+    );
+}
+</script>
+
+</body>
+</html>

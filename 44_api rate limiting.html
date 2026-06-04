@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Rate Limiting Demo</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    button {
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    #output {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        background: #f9f9f9;
+    }
+</style>
+</head>
+<body>
+
+<h2>API Rate Limiting Example</h2>
+
+<p>
+Maximum: <strong>5 requests per minute</strong>
+</p>
+
+<button onclick="callAPI()">Call API</button>
+
+<div id="output"></div>
+
+<script>
+const MAX_REQUESTS = 5;
+const TIME_WINDOW = 60000; // 1 minute
+
+let requestTimestamps = [];
+
+function callAPI() {
+
+    const now = Date.now();
+
+    // Remove expired requests
+    requestTimestamps = requestTimestamps.filter(
+        timestamp => now - timestamp < TIME_WINDOW
+    );
+
+    if (requestTimestamps.length >= MAX_REQUESTS) {
+        document.getElementById("output").innerHTML =
+            "<p style='color:red'>Rate limit exceeded. Try again later.</p>";
+        return;
+    }
+
+    requestTimestamps.push(now);
+
+    // Simulated API request
+    document.getElementById("output").innerHTML =
+        `<p>API Request Successful</p>
+         <p>Requests used: ${requestTimestamps.length}/${MAX_REQUESTS}</p>`;
+}
+</script>
+
+</body>
+</html>

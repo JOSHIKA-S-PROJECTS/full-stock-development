@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Storage Integration</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    input, button {
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    #result {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+</style>
+</head>
+<body>
+
+<h2>Cloud Storage File Upload</h2>
+
+<input type="file" id="fileInput">
+
+<br>
+
+<button onclick="uploadFile()">
+    Upload to Cloud
+</button>
+
+<div id="result"></div>
+
+<script>
+async function uploadFile() {
+
+    const file =
+        document.getElementById("fileInput")
+        .files[0];
+
+    if (!file) {
+        alert("Please select a file.");
+        return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:3000/upload",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        const result = await response.json();
+
+        document.getElementById("result").innerHTML =
+            `
+            <h3>Upload Successful</h3>
+            <p>File URL:</p>
+            <a href="${result.url}" target="_blank">
+                ${result.url}
+            </a>
+            `;
+
+    } catch(error) {
+
+        document.getElementById("result").innerHTML =
+            `<p>Error: ${error.message}</p>`;
+    }
+}
+</script>
+
+</body>
+</html>
