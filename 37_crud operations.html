@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRUD Operations</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    input {
+        padding: 10px;
+        margin: 5px;
+        width: 200px;
+    }
+
+    button {
+        padding: 10px 15px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .edit-btn {
+        background: orange;
+        color: white;
+        border: none;
+    }
+
+    .delete-btn {
+        background: red;
+        color: white;
+        border: none;
+    }
+</style>
+</head>
+<body>
+
+<h2>CRUD Operations Example</h2>
+
+<input type="hidden" id="userId">
+
+<input type="text" id="name" placeholder="Enter Name">
+<input type="email" id="email" placeholder="Enter Email">
+
+<button onclick="saveUser()">Save</button>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="userTable"></tbody>
+</table>
+
+<script>
+let users = [
+    { id: 1, name: "John Doe", email: "john@example.com" },
+    { id: 2, name: "Jane Smith", email: "jane@example.com" }
+];
+
+function displayUsers() {
+    const table = document.getElementById("userTable");
+
+    table.innerHTML = users.map(user => `
+        <tr>
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>
+                <button class="edit-btn"
+                    onclick="editUser(${user.id})">
+                    Edit
+                </button>
+
+                <button class="delete-btn"
+                    onclick="deleteUser(${user.id})">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function saveUser() {
+    const id = document.getElementById("userId").value;
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+
+    if (!name || !email) {
+        alert("Please enter all fields");
+        return;
+    }
+
+    if (id) {
+        // Update
+        const user = users.find(u => u.id == id);
+
+        user.name = name;
+        user.email = email;
+    } else {
+        // Create
+        users.push({
+            id: Date.now(),
+            name,
+            email
+        });
+    }
+
+    clearForm();
+    displayUsers();
+}
+
+function editUser(id) {
+    const user = users.find(u => u.id === id);
+
+    document.getElementById("userId").value = user.id;
+    document.getElementById("name").value = user.name;
+    document.getElementById("email").value = user.email;
+}
+
+function deleteUser(id) {
+    if (confirm("Delete this record?")) {
+        users = users.filter(user => user.id !== id);
+        displayUsers();
+    }
+}
+
+function clearForm() {
+    document.getElementById("userId").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+}
+
+displayUsers();
+</script>
+
+</body>
+</html>

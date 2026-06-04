@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Authentication Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 50px auto;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>JWT Login</h2>
+
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+    <button onclick="getProfile()">Get Profile</button>
+    <button onclick="logout()">Logout</button>
+
+    <div id="result"></div>
+
+    <script>
+        const API_URL = "https://your-api-url.com";
+
+        async function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem("token", data.token);
+
+                    document.getElementById("result").innerHTML =
+                        "Login successful! JWT token saved.";
+                } else {
+                    document.getElementById("result").innerHTML =
+                        data.message || "Login failed";
+                }
+
+            } catch (error) {
+                document.getElementById("result").innerHTML =
+                    "Error: " + error.message;
+            }
+        }
+
+        async function getProfile() {
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                document.getElementById("result").innerHTML =
+                    "Please login first.";
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/profile`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                const data = await response.json();
+
+                document.getElementById("result").innerHTML =
+                    `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+
+            } catch (error) {
+                document.getElementById("result").innerHTML =
+                    "Error: " + error.message;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("token");
+
+            document.getElementById("result").innerHTML =
+                "Logged out successfully.";
+        }
+    </script>
+
+</body>
+</html>
