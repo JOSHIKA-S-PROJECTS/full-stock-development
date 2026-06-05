@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Payment</title>
+</head>
+<body>
+
+    <h1>Stripe Payment Gateway</h1>
+    <p>Premium Plan - ₹999</p>
+
+    <button id="checkout-button">
+        Pay with Stripe
+    </button>
+
+    <script>
+        document
+            .getElementById("checkout-button")
+            .addEventListener("click", async () => {
+
+                const response = await fetch(
+                    "http://localhost:3000/create-checkout-session",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+                const session = await response.json();
+
+                window.location.href = session.url;
+            });
+    </script>
+
+</body>
+</html>

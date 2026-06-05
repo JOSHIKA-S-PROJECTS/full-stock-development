@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Export Example</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #invoice {
+            border: 1px solid #ccc;
+            padding: 20px;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="invoice">
+        <h2>Invoice</h2>
+
+        <p><strong>Invoice No:</strong> INV-001</p>
+        <p><strong>Customer:</strong> John Doe</p>
+        <p><strong>Date:</strong> 05/06/2026</p>
+
+        <table border="1" width="100%" cellspacing="0" cellpadding="8">
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>Laptop</td>
+                <td>1</td>
+                <td>₹50,000</td>
+            </tr>
+        </table>
+
+        <h3>Total: ₹50,000</h3>
+    </div>
+
+    <button onclick="downloadPDF()">
+        Download PDF
+    </button>
+
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script>
+        async function downloadPDF() {
+
+            const invoice =
+                document.getElementById("invoice");
+
+            const canvas =
+                await html2canvas(invoice);
+
+            const image =
+                canvas.toDataURL("image/png");
+
+            const { jsPDF } = window.jspdf;
+
+            const pdf =
+                new jsPDF("p", "mm", "a4");
+
+            const pageWidth =
+                pdf.internal.pageSize.getWidth();
+
+            const imgWidth =
+                pageWidth - 20;
+
+            const imgHeight =
+                (canvas.height * imgWidth) /
+                canvas.width;
+
+            pdf.addImage(
+                image,
+                "PNG",
+                10,
+                10,
+                imgWidth,
+                imgHeight
+            );
+
+            pdf.save("invoice.pdf");
+        }
+    </script>
+
+</body>
+</html>

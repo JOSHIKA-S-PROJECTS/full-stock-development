@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Report Generator</title>
+</head>
+<body>
+
+<h2>Generate Sales Report</h2>
+
+<button onclick="generateReport()">Generate Report</button>
+
+<div id="result"></div>
+
+<script>
+async function generateReport() {
+    try {
+        const response = await fetch("http://localhost:3000/api/reports/sales");
+
+        const data = await response.json();
+
+        document.getElementById("result").innerHTML = `
+            <h3>Report Generated</h3>
+            <p>Total Sales: ${data.totalSales}</p>
+            <p>Total Orders: ${data.totalOrders}</p>
+            <p>Generated On: ${data.generatedAt}</p>
+        `;
+    } catch (error) {
+        document.getElementById("result").innerHTML =
+            "Error generating report";
+    }
+}
+</script>
+
+</body>
+</html>
