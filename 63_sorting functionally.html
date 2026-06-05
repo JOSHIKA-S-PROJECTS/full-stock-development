@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sorting Functionality</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        select {
+            padding: 8px;
+            margin-bottom: 20px;
+        }
+
+        .product {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Product Sorting Example</h2>
+
+    <label for="sortOption">Sort By:</label>
+    <select id="sortOption" onchange="sortProducts()">
+        <option value="nameAsc">Name (A-Z)</option>
+        <option value="nameDesc">Name (Z-A)</option>
+        <option value="priceAsc">Price (Low to High)</option>
+        <option value="priceDesc">Price (High to Low)</option>
+    </select>
+
+    <div id="productList"></div>
+
+    <script>
+        const products = [
+            { name: "Laptop", price: 50000 },
+            { name: "Mobile", price: 25000 },
+            { name: "Keyboard", price: 1200 },
+            { name: "Monitor", price: 15000 },
+            { name: "Mouse", price: 800 }
+        ];
+
+        function displayProducts() {
+            const container = document.getElementById("productList");
+
+            container.innerHTML = "";
+
+            products.forEach(product => {
+                container.innerHTML += `
+                    <div class="product">
+                        <strong>${product.name}</strong><br>
+                        Price: ₹${product.price}
+                    </div>
+                `;
+            });
+        }
+
+        function sortProducts() {
+            const option = document.getElementById("sortOption").value;
+
+            switch(option) {
+                case "nameAsc":
+                    products.sort((a, b) =>
+                        a.name.localeCompare(b.name));
+                    break;
+
+                case "nameDesc":
+                    products.sort((a, b) =>
+                        b.name.localeCompare(a.name));
+                    break;
+
+                case "priceAsc":
+                    products.sort((a, b) =>
+                        a.price - b.price);
+                    break;
+
+                case "priceDesc":
+                    products.sort((a, b) =>
+                        b.price - a.price);
+                    break;
+            }
+
+            displayProducts();
+        }
+
+        displayProducts();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URL Shortener</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:#fff;
+    padding:25px;
+    border-radius:10px;
+    width:400px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+.result{
+    margin-top:15px;
+    padding:10px;
+    background:#e8f5e9;
+    border-radius:5px;
+    word-wrap:break-word;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>URL Shortener</h2>
+
+    <input type="url" id="longUrl" placeholder="Enter Long URL">
+
+    <button onclick="shortenURL()">Shorten URL</button>
+
+    <div class="result" id="result" style="display:none;"></div>
+</div>
+
+<script>
+const urlDatabase = {};
+
+function generateCode(length = 6) {
+    const chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let code = "";
+
+    for (let i = 0; i < length; i++) {
+        code += chars.charAt(
+            Math.floor(Math.random() * chars.length)
+        );
+    }
+
+    return code;
+}
+
+function shortenURL() {
+    const longUrl = document.getElementById("longUrl").value;
+
+    if (!longUrl) {
+        alert("Please enter a URL");
+        return;
+    }
+
+    const shortCode = generateCode();
+
+    urlDatabase[shortCode] = longUrl;
+
+    const shortUrl =
+        window.location.origin + "/s/" + shortCode;
+
+    const result = document.getElementById("result");
+    result.style.display = "block";
+    result.innerHTML =
+        `<strong>Short URL:</strong><br>${shortUrl}`;
+        
+    console.log(urlDatabase);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pagination Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+        }
+
+        .pagination {
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            margin: 0 3px;
+            cursor: pointer;
+        }
+
+        .active {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Product List with Pagination</h2>
+
+    <div id="productList"></div>
+
+    <div class="pagination" id="pagination"></div>
+
+    <script>
+        // Sample Data
+        const products = [];
+
+        for (let i = 1; i <= 100; i++) {
+            products.push({
+                id: i,
+                name: `Product ${i}`
+            });
+        }
+
+        const itemsPerPage = 10;
+        let currentPage = 1;
+
+        function displayProducts(page) {
+            const productList = document.getElementById("productList");
+
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+
+            const paginatedItems = products.slice(start, end);
+
+            productList.innerHTML = "";
+
+            paginatedItems.forEach(product => {
+                productList.innerHTML += `
+                    <div class="item">
+                        ID: ${product.id} - ${product.name}
+                    </div>
+                `;
+            });
+        }
+
+        function setupPagination() {
+            const pagination = document.getElementById("pagination");
+
+            pagination.innerHTML = "";
+
+            const pageCount = Math.ceil(products.length / itemsPerPage);
+
+            // Previous Button
+            const prevBtn = document.createElement("button");
+            prevBtn.textContent = "Previous";
+            prevBtn.onclick = () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayProducts(currentPage);
+                    setupPagination();
+                }
+            };
+            pagination.appendChild(prevBtn);
+
+            // Page Numbers
+            for (let i = 1; i <= pageCount; i++) {
+                const btn = document.createElement("button");
+                btn.textContent = i;
+
+                if (i === currentPage) {
+                    btn.classList.add("active");
+                }
+
+                btn.onclick = () => {
+                    currentPage = i;
+                    displayProducts(currentPage);
+                    setupPagination();
+                };
+
+                pagination.appendChild(btn);
+            }
+
+            // Next Button
+            const nextBtn = document.createElement("button");
+            nextBtn.textContent = "Next";
+            nextBtn.onclick = () => {
+                if (currentPage < pageCount) {
+                    currentPage++;
+                    displayProducts(currentPage);
+                    setupPagination();
+                }
+            };
+            pagination.appendChild(nextBtn);
+        }
+
+        displayProducts(currentPage);
+        setupPagination();
+    </script>
+
+</body>
+</html>

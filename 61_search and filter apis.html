@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search and Filter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        input, select, button {
+            padding: 8px;
+            margin: 5px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Product Search & Filter</h2>
+
+<input type="text" id="search" placeholder="Search products">
+
+<select id="category">
+    <option value="">All Categories</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Books">Books</option>
+    <option value="Clothing">Clothing</option>
+</select>
+
+<button onclick="searchProducts()">Search</button>
+
+<div id="results"></div>
+
+<script>
+async function searchProducts() {
+
+    const search = document.getElementById("search").value;
+    const category = document.getElementById("category").value;
+
+    const url =
+        `http://localhost:3000/api/products?search=${search}&category=${category}`;
+
+    try {
+        const response = await fetch(url);
+        const products = await response.json();
+
+        let html = "";
+
+        products.forEach(product => {
+            html += `
+                <div class="card">
+                    <h3>${product.name}</h3>
+                    <p>Category: ${product.category}</p>
+                    <p>Price: ₹${product.price}</p>
+                </div>
+            `;
+        });
+
+        document.getElementById("results").innerHTML = html;
+
+    } catch (error) {
+        document.getElementById("results").innerHTML =
+            "Error loading products";
+    }
+}
+</script>
+
+</body>
+</html>
