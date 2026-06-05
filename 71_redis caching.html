@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redis Cache Demo</title>
+</head>
+<body>
+    <h2>Redis Caching Example</h2>
+
+    <button onclick="getData()">Fetch Data</button>
+
+    <div id="result"></div>
+
+    <script>
+        async function getData() {
+            try {
+                const response = await fetch('http://localhost:3000/api/data');
+                const data = await response.json();
+
+                document.getElementById('result').innerHTML =
+                    `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>

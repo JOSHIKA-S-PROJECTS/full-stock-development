@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Session Management Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        .container {
+            width: 300px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Session Management Demo</h2>
+
+    <div id="loginForm">
+        <input type="text" id="username" placeholder="Enter Username">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div id="userPanel" style="display:none;">
+        <h3>Welcome, <span id="userName"></span></h3>
+        <button onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<script>
+    function login() {
+        const username = document.getElementById("username").value;
+
+        if (username.trim() === "") {
+            alert("Please enter username");
+            return;
+        }
+
+        // Store session data
+        sessionStorage.setItem("loggedInUser", username);
+
+        showUser();
+    }
+
+    function logout() {
+        sessionStorage.removeItem("loggedInUser");
+        location.reload();
+    }
+
+    function showUser() {
+        const user = sessionStorage.getItem("loggedInUser");
+
+        if (user) {
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("userPanel").style.display = "block";
+            document.getElementById("userName").textContent = user;
+        }
+    }
+
+    // Check session on page load
+    window.onload = showUser;
+</script>
+
+</body>
+</html>

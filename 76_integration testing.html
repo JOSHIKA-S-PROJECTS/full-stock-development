@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integration Testing Demo</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+
+    input, button {
+        display: block;
+        margin: 10px 0;
+        padding: 8px;
+        width: 300px;
+    }
+
+    .pass {
+        color: green;
+    }
+
+    .fail {
+        color: red;
+    }
+
+    #results {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h2>User Registration</h2>
+
+<input type="text" id="name" placeholder="Enter Name">
+<input type="email" id="email" placeholder="Enter Email">
+<button onclick="registerUser()">Register</button>
+
+<h2>Integration Test Results</h2>
+<button onclick="runIntegrationTests()">Run Integration Tests</button>
+
+<div id="results"></div>
+
+<script>
+// Validation Module
+function validateUser(user) {
+    return user.name.trim() !== "" &&
+           user.email.includes("@");
+}
+
+// Simulated API Module
+function saveUser(user) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({
+                success: true,
+                user: user
+            });
+        }, 500);
+    });
+}
+
+// Application Module
+async function registerUser() {
+    const user = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value
+    };
+
+    if (!validateUser(user)) {
+        alert("Invalid user data");
+        return;
+    }
+
+    const response = await saveUser(user);
+
+    if (response.success) {
+        alert("User registered successfully");
+    }
+}
+
+// Integration Test Helpers
+function logResult(testName, passed) {
+    const results = document.getElementById("results");
+
+    results.innerHTML += `
+        <p class="${passed ? 'pass' : 'fail'}">
+            ${passed ? '✓' : '✗'} ${testName}
+        </p>
+    `;
+}
+
+// Integration Tests
+async function runIntegrationTests() {
+
+    document.getElementById("results").innerHTML = "";
+
+    // Test 1: Valid User Flow
+    try {
+        const user = {
+            name: "John",
+            email: "john@example.com"
+        };
+
+        const valid = validateUser(user);
+        const response = await saveUser(user);
+
+        logResult(
+            "Valid User Registration Flow",
+            valid && response.success
+        );
+    } catch {
+        logResult(
+            "Valid User Registration Flow",
+            false
+        );
+    }
+
+    // Test 2: Invalid User Validation
+    try {
+        const user = {
+            name: "",
+            email: "invalid"
+        };
+
+        const valid = validateUser(user);
+
+        logResult(
+            "Invalid User Validation",
+            valid === false
+        );
+    } catch {
+        logResult(
+            "Invalid User Validation",
+            false
+        );
+    }
+
+    // Test 3: API Response Integration
+    try {
+        const user = {
+            name: "Alice",
+            email: "alice@example.com"
+        };
+
+        const response = await saveUser(user);
+
+        logResult(
+            "API Returns Registered User",
+            response.user.name === "Alice"
+        );
+    } catch {
+        logResult(
+            "API Returns Registered User",
+            false
+        );
+    }
+}
+</script>
+
+</body>
+</html>

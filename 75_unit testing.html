@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit Testing Demo</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+
+    .pass {
+        color: green;
+    }
+
+    .fail {
+        color: red;
+    }
+
+    #results {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h2>JavaScript Unit Testing</h2>
+
+<button onclick="runTests()">Run Tests</button>
+
+<div id="results"></div>
+
+<script>
+// Functions to test
+function add(a, b) {
+    return a + b;
+}
+
+function subtract(a, b) {
+    return a - b;
+}
+
+function multiply(a, b) {
+    return a * b;
+}
+
+function divide(a, b) {
+    if (b === 0) {
+        throw new Error("Division by zero");
+    }
+    return a / b;
+}
+
+// Simple assertion functions
+function assertEqual(actual, expected, testName) {
+    const resultDiv = document.getElementById("results");
+
+    if (actual === expected) {
+        resultDiv.innerHTML +=
+            `<p class="pass">✓ ${testName}</p>`;
+    } else {
+        resultDiv.innerHTML +=
+            `<p class="fail">✗ ${testName}
+             (Expected: ${expected}, Got: ${actual})</p>`;
+    }
+}
+
+function assertThrows(fn, testName) {
+    const resultDiv = document.getElementById("results");
+
+    try {
+        fn();
+        resultDiv.innerHTML +=
+            `<p class="fail">✗ ${testName}
+             (Exception expected)</p>`;
+    } catch {
+        resultDiv.innerHTML +=
+            `<p class="pass">✓ ${testName}</p>`;
+    }
+}
+
+// Run all tests
+function runTests() {
+    document.getElementById("results").innerHTML = "";
+
+    assertEqual(add(5, 3), 8, "Addition Test");
+    assertEqual(subtract(10, 4), 6, "Subtraction Test");
+    assertEqual(multiply(7, 2), 14, "Multiplication Test");
+    assertEqual(divide(20, 4), 5, "Division Test");
+
+    assertThrows(
+        () => divide(10, 0),
+        "Division By Zero Test"
+    );
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swagger API Documentation</title>
+
+    <!-- Swagger UI CSS -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        #swagger-ui {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>API Documentation</h1>
+</div>
+
+<div id="swagger-ui"></div>
+
+<!-- Swagger UI Scripts -->
+<script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+<script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-standalone-preset.js"></script>
+
+<script>
+window.onload = function () {
+    SwaggerUIBundle({
+        spec: {
+            openapi: "3.0.0",
+            info: {
+                title: "User Management API",
+                version: "1.0.0",
+                description: "Sample REST API documentation using Swagger UI"
+            },
+            servers: [
+                {
+                    url: "https://api.example.com",
+                    description: "Production Server"
+                }
+            ],
+            paths: {
+                "/users": {
+                    get: {
+                        summary: "Get all users",
+                        description: "Returns a list of users",
+                        responses: {
+                            "200": {
+                                description: "Successful response"
+                            }
+                        }
+                    },
+                    post: {
+                        summary: "Create a new user",
+                        requestBody: {
+                            required: true,
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        type: "object",
+                                        properties: {
+                                            name: {
+                                                type: "string"
+                                            },
+                                            email: {
+                                                type: "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        responses: {
+                            "201": {
+                                description: "User created successfully"
+                            }
+                        }
+                    }
+                },
+                "/users/{id}": {
+                    get: {
+                        summary: "Get user by ID",
+                        parameters: [
+                            {
+                                name: "id",
+                                in: "path",
+                                required: true,
+                                schema: {
+                                    type: "integer"
+                                }
+                            }
+                        ],
+                        responses: {
+                            "200": {
+                                description: "User found"
+                            },
+                            "404": {
+                                description: "User not found"
+                            }
+                        }
+                    },
+                    put: {
+                        summary: "Update user",
+                        parameters: [
+                            {
+                                name: "id",
+                                in: "path",
+                                required: true,
+                                schema: {
+                                    type: "integer"
+                                }
+                            }
+                        ],
+                        responses: {
+                            "200": {
+                                description: "User updated"
+                            }
+                        }
+                    },
+                    delete: {
+                        summary: "Delete user",
+                        parameters: [
+                            {
+                                name: "id",
+                                in: "path",
+                                required: true,
+                                schema: {
+                                    type: "integer"
+                                }
+                            }
+                        ],
+                        responses: {
+                            "200": {
+                                description: "User deleted"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [
+            SwaggerUIBundle.presets.apis,
+            SwaggerUIStandalonePreset
+        ],
+        layout: "StandaloneLayout"
+    });
+};
+</script>
+
+</body>
+</html>
