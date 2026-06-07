@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Record Management System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    background:#2563eb;
+    color:white;
+    text-align:center;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    padding:8px 15px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    color:white;
+}
+
+.add-btn{
+    background:#16a34a;
+}
+
+.edit-btn{
+    background:#f59e0b;
+}
+
+.delete-btn{
+    background:#dc2626;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th,
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table th{
+    background:#2563eb;
+    color:white;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.stat{
+    text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Student Record Management System</h1>
+    </div>
+
+    <div class="dashboard">
+        <div class="card stat">
+            <h3>Total Students</h3>
+            <h2 id="totalStudents">0</h2>
+        </div>
+
+        <div class="card stat">
+            <h3>Average Class Score</h3>
+            <h2 id="classAverage">0</h2>
+        </div>
+    </div>
+
+    <div class="card">
+
+        <h2>Add / Edit Student</h2>
+
+        <input type="hidden" id="studentId">
+
+        <input type="text"
+               id="name"
+               placeholder="Student Name">
+
+        <input type="text"
+               id="roll"
+               placeholder="Roll Number">
+
+        <input type="number"
+               id="math"
+               placeholder="Math Marks">
+
+        <input type="number"
+               id="science"
+               placeholder="Science Marks">
+
+        <input type="number"
+               id="english"
+               placeholder="English Marks">
+
+        <button class="add-btn"
+                onclick="saveStudent()">
+            Save Student
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <input type="text"
+               id="search"
+               placeholder="Search Student..."
+               onkeyup="searchStudent()">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Roll No</th>
+                    <th>Math</th>
+                    <th>Science</th>
+                    <th>English</th>
+                    <th>Average</th>
+                    <th>Grade</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="studentTable"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+let students = [];
+let nextId = 1;
+
+function calculateGrade(avg){
+    if(avg >= 90) return "A+";
+    if(avg >= 80) return "A";
+    if(avg >= 70) return "B";
+    if(avg >= 60) return "C";
+    if(avg >= 50) return "D";
+    return "F";
+}
+
+function saveStudent(){
+
+    let id = document.getElementById("studentId").value;
+
+    let student = {
+        name: document.getElementById("name").value,
+        roll: document.getElementById("roll").value,
+        math: Number(document.getElementById("math").value),
+        science: Number(document.getElementById("science").value),
+        english: Number(document.getElementById("english").value)
+    };
+
+    if(!student.name || !student.roll){
+        alert("Please enter all required fields");
+        return;
+    }
+
+    if(id){
+
+        let index =
+            students.findIndex(s => s.id == id);
+
+        students[index] = {
+            id:Number(id),
+            ...student
+        };
+
+    }else{
+
+        students.push({
+            id: nextId++,
+            ...student
+        });
+    }
+
+    clearForm();
+    displayStudents(students);
+}
+
+function displayStudents(data){
+
+    let table =
+        document.getElementById("studentTable");
+
+    table.innerHTML = "";
+
+    data.forEach(student => {
+
+        let avg =
+            ((student.math +
+              student.science +
+              student.english) / 3)
+              .toFixed(2);
+
+        let grade =
+            calculateGrade(avg);
+
+        table.innerHTML += `
+        <tr>
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.roll}</td>
+            <td>${student.math}</td>
+            <td>${student.science}</td>
+            <td>${student.english}</td>
+            <td>${avg}</td>
+            <td>${grade}</td>
+            <td>
+
+                <button
+                class="edit-btn"
+                onclick="editStudent(${student.id})">
+                Edit
+                </button>
+
+                <button
+                class="delete-btn"
+                onclick="deleteStudent(${student.id})">
+                Delete
+                </button>
+
+            </td>
+        </tr>
+        `;
+    });
+
+    updateDashboard();
+}
+
+function editStudent(id){
+
+    let student =
+        students.find(s => s.id === id);
+
+    document.getElementById("studentId").value =
+        student.id;
+
+    document.getElementById("name").value =
+        student.name;
+
+    document.getElementById("roll").value =
+        student.roll;
+
+    document.getElementById("math").value =
+        student.math;
+
+    document.getElementById("science").value =
+        student.science;
+
+    document.getElementById("english").value =
+        student.english;
+}
+
+function deleteStudent(id){
+
+    if(confirm("Delete student?")){
+
+        students =
+            students.filter(
+                s => s.id !== id
+            );
+
+        displayStudents(students);
+    }
+}
+
+function searchStudent(){
+
+    let keyword =
+        document.getElementById("search")
+        .value.toLowerCase();
+
+    let filtered =
+        students.filter(student =>
+
+            student.name.toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            student.roll.toLowerCase()
+            .includes(keyword)
+        );
+
+    displayStudents(filtered);
+}
+
+function updateDashboard(){
+
+    document.getElementById("totalStudents")
+        .innerText = students.length;
+
+    if(students.length === 0){
+        document.getElementById("classAverage")
+            .innerText = "0";
+        return;
+    }
+
+    let totalAvg = students.reduce((sum, student)=>{
+
+        return sum +
+        ((student.math +
+          student.science +
+          student.english) / 3);
+
+    },0);
+
+    document.getElementById("classAverage")
+        .innerText =
+        (totalAvg / students.length).toFixed(2);
+}
+
+function clearForm(){
+
+    document.getElementById("studentId").value="";
+    document.getElementById("name").value="";
+    document.getElementById("roll").value="";
+    document.getElementById("math").value="";
+    document.getElementById("science").value="";
+    document.getElementById("english").value="";
+}
+
+displayStudents(students);
+
+</script>
+
+</body>
+</html>

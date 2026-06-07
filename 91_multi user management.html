@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multi User Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background: #f4f4f4;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .add-btn {
+            background: green;
+            color: white;
+            border: none;
+        }
+
+        .edit-btn {
+            background: orange;
+            color: white;
+            border: none;
+        }
+
+        .delete-btn {
+            background: red;
+            color: white;
+            border: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Multi User Management System</h2>
+
+    <input type="hidden" id="userId">
+
+    <input type="text" id="name" placeholder="Enter Name">
+    <input type="email" id="email" placeholder="Enter Email">
+    <input type="text" id="role" placeholder="Enter Role">
+
+    <button class="add-btn" onclick="saveUser()">
+        Save User
+    </button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody id="userTable">
+        </tbody>
+    </table>
+</div>
+
+<script>
+    let users = [];
+    let counter = 1;
+
+    function saveUser() {
+        let id = document.getElementById("userId").value;
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let role = document.getElementById("role").value;
+
+        if (!name || !email || !role) {
+            alert("Please fill all fields");
+            return;
+        }
+
+        if (id) {
+            let user = users.find(u => u.id == id);
+            user.name = name;
+            user.email = email;
+            user.role = role;
+        } else {
+            users.push({
+                id: counter++,
+                name,
+                email,
+                role
+            });
+        }
+
+        clearForm();
+        renderUsers();
+    }
+
+    function renderUsers() {
+        let table = document.getElementById("userTable");
+        table.innerHTML = "";
+
+        users.forEach(user => {
+            table.innerHTML += `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td>
+                        <button class="edit-btn"
+                            onclick="editUser(${user.id})">
+                            Edit
+                        </button>
+
+                        <button class="delete-btn"
+                            onclick="deleteUser(${user.id})">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function editUser(id) {
+        let user = users.find(u => u.id == id);
+
+        document.getElementById("userId").value = user.id;
+        document.getElementById("name").value = user.name;
+        document.getElementById("email").value = user.email;
+        document.getElementById("role").value = user.role;
+    }
+
+    function deleteUser(id) {
+        if (confirm("Delete this user?")) {
+            users = users.filter(user => user.id != id);
+            renderUsers();
+        }
+    }
+
+    function clearForm() {
+        document.getElementById("userId").value = "";
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("role").value = "";
+    }
+</script>
+
+</body>
+</html>

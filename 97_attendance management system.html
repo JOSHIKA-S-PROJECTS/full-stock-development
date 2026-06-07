@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attendance Management System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    background:#2563eb;
+    color:white;
+    text-align:center;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    padding:8px 15px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    color:white;
+}
+
+.add-btn{
+    background:#16a34a;
+}
+
+.present-btn{
+    background:#2563eb;
+}
+
+.absent-btn{
+    background:#dc2626;
+}
+
+.delete-btn{
+    background:#7f1d1d;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th,
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table th{
+    background:#2563eb;
+    color:white;
+}
+
+.present{
+    color:green;
+    font-weight:bold;
+}
+
+.absent{
+    color:red;
+    font-weight:bold;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.dashboard .card{
+    text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Attendance Management System</h1>
+    </div>
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h3>Total Students</h3>
+            <h2 id="totalStudents">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Present Today</h3>
+            <h2 id="presentCount">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Absent Today</h3>
+            <h2 id="absentCount">0</h2>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Add Student</h2>
+
+        <input type="text"
+               id="studentName"
+               placeholder="Student Name">
+
+        <input type="text"
+               id="studentRoll"
+               placeholder="Roll Number">
+
+        <button class="add-btn"
+                onclick="addStudent()">
+            Add Student
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <input type="text"
+               id="search"
+               placeholder="Search Student..."
+               onkeyup="searchStudent()">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Roll No</th>
+                    <th>Status</th>
+                    <th>Attendance %</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="studentTable"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+let students = [];
+let nextId = 1;
+
+function addStudent(){
+
+    let name =
+        document.getElementById("studentName").value;
+
+    let roll =
+        document.getElementById("studentRoll").value;
+
+    if(!name || !roll){
+        alert("Please enter all fields");
+        return;
+    }
+
+    students.push({
+        id: nextId++,
+        name,
+        roll,
+        present:0,
+        total:0,
+        status:"Not Marked"
+    });
+
+    clearForm();
+    displayStudents(students);
+}
+
+function displayStudents(data){
+
+    let table =
+        document.getElementById("studentTable");
+
+    table.innerHTML = "";
+
+    data.forEach(student => {
+
+        let percentage =
+            student.total === 0
+            ? 0
+            : ((student.present /
+                student.total) * 100)
+              .toFixed(1);
+
+        table.innerHTML += `
+        <tr>
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.roll}</td>
+
+            <td class="${
+                student.status === 'Present'
+                ? 'present'
+                : 'absent'
+            }">
+                ${student.status}
+            </td>
+
+            <td>${percentage}%</td>
+
+            <td>
+
+                <button
+                class="present-btn"
+                onclick="markPresent(${student.id})">
+                Present
+                </button>
+
+                <button
+                class="absent-btn"
+                onclick="markAbsent(${student.id})">
+                Absent
+                </button>
+
+                <button
+                class="delete-btn"
+                onclick="deleteStudent(${student.id})">
+                Delete
+                </button>
+
+            </td>
+        </tr>
+        `;
+    });
+
+    updateDashboard();
+}
+
+function markPresent(id){
+
+    let student =
+        students.find(s => s.id === id);
+
+    student.present++;
+    student.total++;
+    student.status = "Present";
+
+    displayStudents(students);
+}
+
+function markAbsent(id){
+
+    let student =
+        students.find(s => s.id === id);
+
+    student.total++;
+    student.status = "Absent";
+
+    displayStudents(students);
+}
+
+function deleteStudent(id){
+
+    if(confirm("Delete student?")){
+
+        students =
+            students.filter(
+                s => s.id !== id
+            );
+
+        displayStudents(students);
+    }
+}
+
+function searchStudent(){
+
+    let keyword =
+        document.getElementById("search")
+        .value.toLowerCase();
+
+    let filtered =
+        students.filter(student =>
+
+            student.name.toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            student.roll.toLowerCase()
+            .includes(keyword)
+        );
+
+    displayStudents(filtered);
+}
+
+function updateDashboard(){
+
+    document.getElementById("totalStudents")
+        .innerText = students.length;
+
+    let present =
+        students.filter(
+            s => s.status === "Present"
+        ).length;
+
+    let absent =
+        students.filter(
+            s => s.status === "Absent"
+        ).length;
+
+    document.getElementById("presentCount")
+        .innerText = present;
+
+    document.getElementById("absentCount")
+        .innerText = absent;
+}
+
+function clearForm(){
+
+    document.getElementById("studentName").value = "";
+    document.getElementById("studentRoll").value = "";
+}
+
+displayStudents(students);
+
+</script>
+
+</body>
+</html>

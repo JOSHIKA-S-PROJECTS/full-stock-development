@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Booking System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    background:#2563eb;
+    color:white;
+    text-align:center;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    color:white;
+}
+
+.book-btn{
+    background:#16a34a;
+}
+
+.delete-btn{
+    background:#dc2626;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th,
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table th{
+    background:#2563eb;
+    color:white;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Hotel Booking Application</h1>
+    </div>
+
+    <div class="dashboard">
+        <div class="card">
+            <h3>Total Bookings</h3>
+            <h2 id="totalBookings">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Revenue</h3>
+            <h2 id="totalRevenue">₹0</h2>
+        </div>
+    </div>
+
+    <div class="card">
+
+        <h2>Book a Room</h2>
+
+        <input type="hidden" id="bookingId">
+
+        <input type="text"
+               id="guestName"
+               placeholder="Guest Name">
+
+        <input type="email"
+               id="email"
+               placeholder="Email Address">
+
+        <input type="date"
+               id="checkIn">
+
+        <input type="date"
+               id="checkOut">
+
+        <select id="roomType">
+            <option value="">Select Room Type</option>
+            <option value="Standard">Standard - ₹2000</option>
+            <option value="Deluxe">Deluxe - ₹4000</option>
+            <option value="Suite">Suite - ₹7000</option>
+        </select>
+
+        <button class="book-btn"
+                onclick="bookRoom()">
+            Book Room
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Booking Records</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Guest</th>
+                    <th>Email</th>
+                    <th>Check-In</th>
+                    <th>Check-Out</th>
+                    <th>Room</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="bookingTable"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+let bookings = [];
+let bookingCounter = 1;
+
+const roomPrices = {
+    Standard: 2000,
+    Deluxe: 4000,
+    Suite: 7000
+};
+
+function bookRoom(){
+
+    let guestName =
+        document.getElementById("guestName").value;
+
+    let email =
+        document.getElementById("email").value;
+
+    let checkIn =
+        document.getElementById("checkIn").value;
+
+    let checkOut =
+        document.getElementById("checkOut").value;
+
+    let roomType =
+        document.getElementById("roomType").value;
+
+    if(!guestName || !email ||
+       !checkIn || !checkOut ||
+       !roomType){
+
+        alert("Please fill all fields");
+        return;
+    }
+
+    let start = new Date(checkIn);
+    let end = new Date(checkOut);
+
+    let nights =
+        Math.ceil(
+            (end - start) /
+            (1000 * 60 * 60 * 24)
+        );
+
+    if(nights <= 0){
+        alert("Invalid check-out date");
+        return;
+    }
+
+    let amount =
+        roomPrices[roomType] * nights;
+
+    bookings.push({
+        id: bookingCounter++,
+        guestName,
+        email,
+        checkIn,
+        checkOut,
+        roomType,
+        amount
+    });
+
+    renderBookings();
+    clearForm();
+}
+
+function renderBookings(){
+
+    let table =
+        document.getElementById("bookingTable");
+
+    table.innerHTML = "";
+
+    bookings.forEach(booking => {
+
+        table.innerHTML += `
+        <tr>
+            <td>${booking.id}</td>
+            <td>${booking.guestName}</td>
+            <td>${booking.email}</td>
+            <td>${booking.checkIn}</td>
+            <td>${booking.checkOut}</td>
+            <td>${booking.roomType}</td>
+            <td>₹${booking.amount}</td>
+            <td>
+                <button class="delete-btn"
+                onclick="deleteBooking(${booking.id})">
+                Cancel
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+
+    updateDashboard();
+}
+
+function deleteBooking(id){
+
+    if(confirm("Cancel booking?")){
+
+        bookings =
+            bookings.filter(
+                booking => booking.id !== id
+            );
+
+        renderBookings();
+    }
+}
+
+function updateDashboard(){
+
+    document.getElementById("totalBookings")
+        .innerText = bookings.length;
+
+    let revenue =
+        bookings.reduce(
+            (sum,b) => sum + b.amount,0
+        );
+
+    document.getElementById("totalRevenue")
+        .innerText = "₹" + revenue;
+}
+
+function clearForm(){
+
+    document.getElementById("guestName").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("checkIn").value = "";
+    document.getElementById("checkOut").value = "";
+    document.getElementById("roomType").value = "";
+}
+
+renderBookings();
+
+</script>
+
+</body>
+</html>

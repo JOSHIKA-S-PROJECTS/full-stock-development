@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LMS Platform</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+.header{
+    background:#2563eb;
+    color:white;
+    padding:15px;
+    text-align:center;
+}
+
+.container{
+    width:90%;
+    margin:20px auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th, table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table th{
+    background:#2563eb;
+    color:white;
+}
+
+.progress{
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    background:green;
+    color:white;
+    text-align:center;
+    padding:5px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Learning Management System (LMS)</h1>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Add New Course</h2>
+
+        <input type="text" id="courseName"
+               placeholder="Course Name">
+
+        <input type="text" id="instructor"
+               placeholder="Instructor Name">
+
+        <input type="number" id="progress"
+               placeholder="Progress %">
+
+        <button onclick="addCourse()">
+            Add Course
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>Available Courses</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Course</th>
+                    <th>Instructor</th>
+                    <th>Progress</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="courseTable">
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+
+let courses = [];
+let courseId = 1;
+
+function addCourse(){
+
+    let courseName =
+        document.getElementById("courseName").value;
+
+    let instructor =
+        document.getElementById("instructor").value;
+
+    let progress =
+        document.getElementById("progress").value;
+
+    if(courseName==="" ||
+       instructor==="" ||
+       progress===""){
+        alert("Please fill all fields");
+        return;
+    }
+
+    courses.push({
+        id: courseId++,
+        courseName,
+        instructor,
+        progress
+    });
+
+    displayCourses();
+    clearForm();
+}
+
+function displayCourses(){
+
+    let table =
+        document.getElementById("courseTable");
+
+    table.innerHTML="";
+
+    courses.forEach(course=>{
+
+        table.innerHTML += `
+        <tr>
+            <td>${course.id}</td>
+            <td>${course.courseName}</td>
+            <td>${course.instructor}</td>
+
+            <td>
+                <div class="progress">
+                    <div class="progress-bar"
+                    style="width:${course.progress}%">
+                    ${course.progress}%
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <button
+                onclick="enrollCourse(${course.id})">
+                Enroll
+                </button>
+
+                <button
+                onclick="deleteCourse(${course.id})">
+                Delete
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+}
+
+function enrollCourse(id){
+    alert(
+        "Successfully enrolled in Course ID: "
+        + id
+    );
+}
+
+function deleteCourse(id){
+
+    courses =
+    courses.filter(course =>
+        course.id !== id
+    );
+
+    displayCourses();
+}
+
+function clearForm(){
+
+    document.getElementById("courseName").value="";
+    document.getElementById("instructor").value="";
+    document.getElementById("progress").value="";
+}
+
+</script>
+
+</body>
+</html>

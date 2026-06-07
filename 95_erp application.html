@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERP Management System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+header{
+    background:#1e40af;
+    color:white;
+    padding:15px;
+    text-align:center;
+}
+
+.container{
+    width:95%;
+    margin:20px auto;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    text-align:center;
+}
+
+.module{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+h2{
+    margin-bottom:15px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th,
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table th{
+    background:#2563eb;
+    color:white;
+}
+
+.delete-btn{
+    background:#dc2626;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>ERP Management System</h1>
+</header>
+
+<div class="container">
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+        <div class="card">
+            <h3>Total Employees</h3>
+            <h2 id="employeeCount">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Products</h3>
+            <h2 id="productCount">0</h2>
+        </div>
+    </div>
+
+    <!-- Employee Module -->
+    <div class="module">
+        <h2>Employee Management</h2>
+
+        <input type="text"
+               id="employeeName"
+               placeholder="Employee Name">
+
+        <input type="text"
+               id="employeeDept"
+               placeholder="Department">
+
+        <button onclick="addEmployee()">
+            Add Employee
+        </button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="employeeTable"></tbody>
+        </table>
+    </div>
+
+    <!-- Inventory Module -->
+    <div class="module">
+        <h2>Inventory Management</h2>
+
+        <input type="text"
+               id="productName"
+               placeholder="Product Name">
+
+        <input type="number"
+               id="productQty"
+               placeholder="Quantity">
+
+        <button onclick="addProduct()">
+            Add Product
+        </button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="productTable"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+
+let employees = [];
+let products = [];
+
+let employeeId = 1;
+let productId = 1;
+
+function updateDashboard(){
+    document.getElementById("employeeCount").innerText =
+        employees.length;
+
+    document.getElementById("productCount").innerText =
+        products.length;
+}
+
+/* Employee Management */
+
+function addEmployee(){
+
+    let name =
+        document.getElementById("employeeName").value;
+
+    let dept =
+        document.getElementById("employeeDept").value;
+
+    if(name === "" || dept === ""){
+        alert("Please fill all employee fields");
+        return;
+    }
+
+    employees.push({
+        id: employeeId++,
+        name:name,
+        dept:dept
+    });
+
+    renderEmployees();
+
+    document.getElementById("employeeName").value="";
+    document.getElementById("employeeDept").value="";
+}
+
+function renderEmployees(){
+
+    let table =
+        document.getElementById("employeeTable");
+
+    table.innerHTML = "";
+
+    employees.forEach(emp => {
+
+        table.innerHTML += `
+        <tr>
+            <td>${emp.id}</td>
+            <td>${emp.name}</td>
+            <td>${emp.dept}</td>
+            <td>
+                <button class="delete-btn"
+                onclick="deleteEmployee(${emp.id})">
+                Delete
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+
+    updateDashboard();
+}
+
+function deleteEmployee(id){
+
+    employees =
+        employees.filter(emp => emp.id !== id);
+
+    renderEmployees();
+}
+
+/* Inventory Management */
+
+function addProduct(){
+
+    let name =
+        document.getElementById("productName").value;
+
+    let qty =
+        document.getElementById("productQty").value;
+
+    if(name === "" || qty === ""){
+        alert("Please fill all product fields");
+        return;
+    }
+
+    products.push({
+        id: productId++,
+        name:name,
+        qty:qty
+    });
+
+    renderProducts();
+
+    document.getElementById("productName").value="";
+    document.getElementById("productQty").value="";
+}
+
+function renderProducts(){
+
+    let table =
+        document.getElementById("productTable");
+
+    table.innerHTML = "";
+
+    products.forEach(product => {
+
+        table.innerHTML += `
+        <tr>
+            <td>${product.id}</td>
+            <td>${product.name}</td>
+            <td>${product.qty}</td>
+            <td>
+                <button class="delete-btn"
+                onclick="deleteProduct(${product.id})">
+                Delete
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+
+    updateDashboard();
+}
+
+function deleteProduct(id){
+
+    products =
+        products.filter(
+            product => product.id !== id
+        );
+
+    renderProducts();
+}
+
+updateDashboard();
+
+</script>
+
+</body>
+</html>

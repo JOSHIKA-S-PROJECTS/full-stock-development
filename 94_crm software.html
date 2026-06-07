@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM Software</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    background:#2563eb;
+    color:white;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.add-btn{
+    background:#16a34a;
+    color:white;
+}
+
+.delete-btn{
+    background:#dc2626;
+    color:white;
+}
+
+.edit-btn{
+    background:#f59e0b;
+    color:white;
+}
+
+.search-box{
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th,
+table td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:center;
+}
+
+table th{
+    background:#2563eb;
+    color:white;
+}
+
+.status{
+    padding:5px 10px;
+    border-radius:20px;
+    color:white;
+}
+
+.active{
+    background:green;
+}
+
+.inactive{
+    background:red;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>CRM Software Dashboard</h1>
+    </div>
+
+    <div class="card">
+
+        <h2>Add Customer</h2>
+
+        <input type="hidden" id="customerId">
+
+        <input type="text"
+               id="name"
+               placeholder="Customer Name">
+
+        <input type="email"
+               id="email"
+               placeholder="Email Address">
+
+        <input type="text"
+               id="phone"
+               placeholder="Phone Number">
+
+        <input type="text"
+               id="company"
+               placeholder="Company Name">
+
+        <select id="status">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+
+        <button class="add-btn"
+                onclick="saveCustomer()">
+            Save Customer
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <input type="text"
+               class="search-box"
+               id="search"
+               placeholder="Search Customer..."
+               onkeyup="searchCustomer()">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Company</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="customerTable"></tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+let customers = [];
+let nextId = 1;
+
+function saveCustomer(){
+
+    const id =
+        document.getElementById("customerId").value;
+
+    const customer = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        company: document.getElementById("company").value,
+        status: document.getElementById("status").value
+    };
+
+    if(!customer.name ||
+       !customer.email ||
+       !customer.phone ||
+       !customer.company){
+        alert("Please fill all fields");
+        return;
+    }
+
+    if(id){
+
+        let index =
+            customers.findIndex(
+                c => c.id == id
+            );
+
+        customers[index] = {
+            id: Number(id),
+            ...customer
+        };
+
+    } else {
+
+        customers.push({
+            id: nextId++,
+            ...customer
+        });
+    }
+
+    clearForm();
+    displayCustomers(customers);
+}
+
+function displayCustomers(data){
+
+    const table =
+        document.getElementById("customerTable");
+
+    table.innerHTML = "";
+
+    data.forEach(customer => {
+
+        table.innerHTML += `
+        <tr>
+            <td>${customer.id}</td>
+            <td>${customer.name}</td>
+            <td>${customer.email}</td>
+            <td>${customer.phone}</td>
+            <td>${customer.company}</td>
+
+            <td>
+                <span class="status
+                ${customer.status === 'Active'
+                    ? 'active'
+                    : 'inactive'}">
+                ${customer.status}
+                </span>
+            </td>
+
+            <td>
+
+                <button
+                class="edit-btn"
+                onclick="editCustomer(${customer.id})">
+                Edit
+                </button>
+
+                <button
+                class="delete-btn"
+                onclick="deleteCustomer(${customer.id})">
+                Delete
+                </button>
+
+            </td>
+        </tr>
+        `;
+    });
+}
+
+function editCustomer(id){
+
+    const customer =
+        customers.find(c => c.id === id);
+
+    document.getElementById("customerId").value =
+        customer.id;
+
+    document.getElementById("name").value =
+        customer.name;
+
+    document.getElementById("email").value =
+        customer.email;
+
+    document.getElementById("phone").value =
+        customer.phone;
+
+    document.getElementById("company").value =
+        customer.company;
+
+    document.getElementById("status").value =
+        customer.status;
+}
+
+function deleteCustomer(id){
+
+    if(confirm("Delete customer?")){
+
+        customers =
+            customers.filter(
+                customer => customer.id !== id
+            );
+
+        displayCustomers(customers);
+    }
+}
+
+function searchCustomer(){
+
+    const keyword =
+        document.getElementById("search")
+        .value.toLowerCase();
+
+    const filtered =
+        customers.filter(customer =>
+
+            customer.name.toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            customer.email.toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            customer.company.toLowerCase()
+            .includes(keyword)
+        );
+
+    displayCustomers(filtered);
+}
+
+function clearForm(){
+
+    document.getElementById("customerId").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("company").value = "";
+    document.getElementById("status").value = "Active";
+}
+
+displayCustomers(customers);
+
+</script>
+
+</body>
+</html>

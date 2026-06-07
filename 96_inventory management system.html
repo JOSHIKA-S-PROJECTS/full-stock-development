@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventory Management System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    background:#2563eb;
+    color:white;
+    padding:20px;
+    text-align:center;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.form-section,
+.table-section{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    color:white;
+}
+
+.add-btn{
+    background:#16a34a;
+}
+
+.edit-btn{
+    background:#f59e0b;
+}
+
+.delete-btn{
+    background:#dc2626;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th,
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table th{
+    background:#2563eb;
+    color:white;
+}
+
+.low-stock{
+    background:#ffe5e5;
+    color:#c62828;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Inventory Management System</h1>
+    </div>
+
+    <div class="dashboard">
+        <div class="card">
+            <h3>Total Products</h3>
+            <h2 id="totalProducts">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Stock</h3>
+            <h2 id="totalStock">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Low Stock Items</h3>
+            <h2 id="lowStockCount">0</h2>
+        </div>
+    </div>
+
+    <div class="form-section">
+
+        <h2>Add Product</h2>
+
+        <input type="hidden" id="productId">
+
+        <input type="text"
+               id="productName"
+               placeholder="Product Name">
+
+        <input type="text"
+               id="category"
+               placeholder="Category">
+
+        <input type="number"
+               id="quantity"
+               placeholder="Quantity">
+
+        <input type="number"
+               id="price"
+               placeholder="Price">
+
+        <button class="add-btn"
+                onclick="saveProduct()">
+            Save Product
+        </button>
+
+    </div>
+
+    <div class="table-section">
+
+        <input type="text"
+               id="search"
+               placeholder="Search Product..."
+               onkeyup="searchProducts()">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Value</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="inventoryTable"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+let inventory = [];
+let nextId = 1;
+
+function saveProduct(){
+
+    let id =
+        document.getElementById("productId").value;
+
+    let name =
+        document.getElementById("productName").value;
+
+    let category =
+        document.getElementById("category").value;
+
+    let quantity =
+        document.getElementById("quantity").value;
+
+    let price =
+        document.getElementById("price").value;
+
+    if(!name || !category || !quantity || !price){
+        alert("Please fill all fields");
+        return;
+    }
+
+    if(id){
+
+        let product =
+            inventory.find(p => p.id == id);
+
+        product.name = name;
+        product.category = category;
+        product.quantity = Number(quantity);
+        product.price = Number(price);
+
+    }else{
+
+        inventory.push({
+            id: nextId++,
+            name,
+            category,
+            quantity:Number(quantity),
+            price:Number(price)
+        });
+    }
+
+    clearForm();
+    displayProducts(inventory);
+}
+
+function displayProducts(data){
+
+    let table =
+        document.getElementById("inventoryTable");
+
+    table.innerHTML = "";
+
+    data.forEach(product => {
+
+        let rowClass =
+            product.quantity < 10
+            ? "low-stock"
+            : "";
+
+        table.innerHTML += `
+        <tr class="${rowClass}">
+            <td>${product.id}</td>
+            <td>${product.name}</td>
+            <td>${product.category}</td>
+            <td>${product.quantity}</td>
+            <td>$${product.price}</td>
+            <td>
+                $${product.quantity * product.price}
+            </td>
+            <td>
+
+                <button
+                class="edit-btn"
+                onclick="editProduct(${product.id})">
+                Edit
+                </button>
+
+                <button
+                class="delete-btn"
+                onclick="deleteProduct(${product.id})">
+                Delete
+                </button>
+
+            </td>
+        </tr>
+        `;
+    });
+
+    updateDashboard();
+}
+
+function editProduct(id){
+
+    let product =
+        inventory.find(p => p.id === id);
+
+    document.getElementById("productId").value =
+        product.id;
+
+    document.getElementById("productName").value =
+        product.name;
+
+    document.getElementById("category").value =
+        product.category;
+
+    document.getElementById("quantity").value =
+        product.quantity;
+
+    document.getElementById("price").value =
+        product.price;
+}
+
+function deleteProduct(id){
+
+    if(confirm("Delete product?")){
+
+        inventory =
+            inventory.filter(
+                product => product.id !== id
+            );
+
+        displayProducts(inventory);
+    }
+}
+
+function searchProducts(){
+
+    let keyword =
+        document.getElementById("search")
+        .value.toLowerCase();
+
+    let filtered =
+        inventory.filter(product =>
+
+            product.name.toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            product.category.toLowerCase()
+            .includes(keyword)
+        );
+
+    displayProducts(filtered);
+}
+
+function updateDashboard(){
+
+    document.getElementById("totalProducts")
+        .innerText = inventory.length;
+
+    let stock =
+        inventory.reduce(
+            (sum,p) => sum + p.quantity,0);
+
+    document.getElementById("totalStock")
+        .innerText = stock;
+
+    let lowStock =
+        inventory.filter(
+            p => p.quantity < 10
+        ).length;
+
+    document.getElementById("lowStockCount")
+        .innerText = lowStock;
+}
+
+function clearForm(){
+
+    document.getElementById("productId").value = "";
+    document.getElementById("productName").value = "";
+    document.getElementById("category").value = "";
+    document.getElementById("quantity").value = "";
+    document.getElementById("price").value = "";
+}
+
+displayProducts(inventory);
+
+</script>
+
+</body>
+</html>
