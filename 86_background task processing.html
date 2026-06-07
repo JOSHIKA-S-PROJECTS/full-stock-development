@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Background Task Processing</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background: #f5f5f5;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+        padding: 10px 15px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    #status {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Background Task Processing Demo</h2>
+
+    <button id="startBtn">Start Background Task</button>
+
+    <div id="status">
+        Task Status: Waiting...
+    </div>
+</div>
+
+<script>
+let worker;
+
+document.getElementById("startBtn").addEventListener("click", () => {
+
+    const workerCode = `
+        self.onmessage = function() {
+
+            let progress = 0;
+
+            const interval = setInterval(() => {
+                progress += 10;
+
+                self.postMessage({
+                    type: "progress",
+                    value: progress
+                });
+
+                if(progress >= 100) {
+                    clearInterval(interval);
+
+                    self.postMessage({
+                        type: "complete",
+                        message: "Background task completed successfully."
+                    });
+                }
+            }, 500);
+        };
+    `;
+
+    const blob = new Blob([workerCode], {
+        type: "application/javascript"
+    });
+
+    worker = new Worker(URL.createObjectURL(blob));
+
+    worker.postMessage("start");
+
+    worker.onmessage = function(event) {
+
+        const data = event.data;
+
+        if(data.type === "progress") {
+            document.getElementById("status").innerHTML =
+                "Task Progress: " + data.value + "%";
+        }
+
+        if(data.type === "complete") {
+            document.getElementById("status").innerHTML =
+                data.message;
+
+            worker.terminate();
+        }
+    };
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Monitoring Dashboard</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    margin:20px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+}
+
+.header{
+    text-align:center;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    text-align:center;
+}
+
+.value{
+    font-size:28px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.online{
+    color:green;
+}
+
+.warning{
+    color:orange;
+}
+
+.critical{
+    color:red;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    background:white;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:left;
+}
+
+th{
+    background:#007bff;
+    color:white;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>System Monitoring Dashboard</h1>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>CPU Usage</h3>
+            <div id="cpu" class="value">0%</div>
+        </div>
+
+        <div class="card">
+            <h3>Memory Usage</h3>
+            <div id="memory" class="value">0%</div>
+        </div>
+
+        <div class="card">
+            <h3>Server Uptime</h3>
+            <div id="uptime" class="value">0h</div>
+        </div>
+
+        <div class="card">
+            <h3>Service Status</h3>
+            <div id="status" class="value online">
+                Online
+            </div>
+        </div>
+
+    </div>
+
+    <h2>Application Events</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Event</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody id="eventsTable">
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+
+function updateMetrics() {
+
+    const cpu =
+        Math.floor(Math.random() * 100);
+
+    const memory =
+        Math.floor(Math.random() * 100);
+
+    const uptime =
+        Math.floor(Math.random() * 720);
+
+    document.getElementById("cpu").innerHTML =
+        cpu + "%";
+
+    document.getElementById("memory").innerHTML =
+        memory + "%";
+
+    document.getElementById("uptime").innerHTML =
+        uptime + " h";
+
+    const status =
+        document.getElementById("status");
+
+    if(cpu > 85 || memory > 85){
+        status.innerHTML = "Warning";
+        status.className = "value warning";
+    }else{
+        status.innerHTML = "Online";
+        status.className = "value online";
+    }
+
+    addEvent(
+        "Metrics Updated",
+        status.innerHTML
+    );
+}
+
+function addEvent(event,status){
+
+    const table =
+        document.getElementById("eventsTable");
+
+    const row =
+        document.createElement("tr");
+
+    row.innerHTML = `
+        <td>${new Date().toLocaleTimeString()}</td>
+        <td>${event}</td>
+        <td>${status}</td>
+    `;
+
+    table.prepend(row);
+}
+
+setInterval(updateMetrics,5000);
+
+updateMetrics();
+
+</script>
+
+</body>
+</html>

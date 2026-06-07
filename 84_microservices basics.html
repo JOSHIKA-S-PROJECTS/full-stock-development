@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microservices Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f4f4;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .service {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        pre {
+            background: #eee;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Microservices Architecture Example</h1>
+
+    <div class="service">
+        <h2>User Service</h2>
+        <button onclick="getUsers()">Load Users</button>
+        <pre id="users"></pre>
+    </div>
+
+    <div class="service">
+        <h2>Product Service</h2>
+        <button onclick="getProducts()">Load Products</button>
+        <pre id="products"></pre>
+    </div>
+
+    <div class="service">
+        <h2>Order Service</h2>
+        <button onclick="getOrders()">Load Orders</button>
+        <pre id="orders"></pre>
+    </div>
+
+</div>
+
+<script>
+const API_GATEWAY = "http://localhost:8080";
+
+async function getUsers() {
+    try {
+        const response = await fetch(
+            `${API_GATEWAY}/users`
+        );
+        const data = await response.json();
+
+        document.getElementById("users")
+            .textContent = JSON.stringify(data, null, 2);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getProducts() {
+    try {
+        const response = await fetch(
+            `${API_GATEWAY}/products`
+        );
+        const data = await response.json();
+
+        document.getElementById("products")
+            .textContent = JSON.stringify(data, null, 2);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getOrders() {
+    try {
+        const response = await fetch(
+            `${API_GATEWAY}/orders`
+        );
+        const data = await response.json();
+
+        document.getElementById("orders")
+            .textContent = JSON.stringify(data, null, 2);
+    } catch (error) {
+        console.error(error);
+    }
+}
+</script>
+
+</body>
+</html>

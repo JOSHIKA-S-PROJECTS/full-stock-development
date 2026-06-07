@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Integration</title>
+</head>
+<body>
+
+    <h2>Firebase Integration Example</h2>
+
+    <button onclick="googleLogin()">Login with Google</button>
+    <button onclick="saveData()">Save Data</button>
+
+    <p id="userInfo">Not Logged In</p>
+
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import {
+            getAuth,
+            GoogleAuthProvider,
+            signInWithPopup
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        import {
+            getFirestore,
+            collection,
+            addDoc
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Initialize Services
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Google Authentication
+        window.googleLogin = async function () {
+            try {
+                const provider = new GoogleAuthProvider();
+                const result = await signInWithPopup(auth, provider);
+
+                document.getElementById("userInfo").innerHTML =
+                    "Welcome: " + result.user.displayName;
+            } catch (error) {
+                console.error(error);
+                alert("Login Failed");
+            }
+        };
+
+        // Save Data to Firestore
+        window.saveData = async function () {
+            try {
+                await addDoc(collection(db, "users"), {
+                    name: "John Doe",
+                    email: "john@example.com",
+                    createdAt: new Date()
+                });
+
+                alert("Data Saved Successfully!");
+            } catch (error) {
+                console.error(error);
+                alert("Failed to Save Data");
+            }
+        };
+    </script>
+
+</body>
+</html>

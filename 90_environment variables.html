@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Variables Example</title>
+</head>
+<body>
+
+    <h1>Environment Configuration</h1>
+
+    <div id="config"></div>
+
+    <script>
+        // Public configuration only
+        const ENV = {
+            API_URL: "https://api.example.com",
+            APP_NAME: "My Application",
+            APP_VERSION: "1.0.0"
+        };
+
+        document.getElementById("config").innerHTML = `
+            <p><strong>App:</strong> ${ENV.APP_NAME}</p>
+            <p><strong>Version:</strong> ${ENV.APP_VERSION}</p>
+            <p><strong>API URL:</strong> ${ENV.API_URL}</p>
+        `;
+    </script>
+
+</body>
+</html>

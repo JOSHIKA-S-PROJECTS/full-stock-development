@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logging System</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background: #f4f4f4;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+        padding: 10px 15px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .log-container {
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        height: 300px;
+        overflow-y: auto;
+        padding: 10px;
+        background: #fafafa;
+    }
+
+    .info {
+        color: blue;
+    }
+
+    .warning {
+        color: orange;
+    }
+
+    .error {
+        color: red;
+    }
+
+    .success {
+        color: green;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Application Logging System</h2>
+
+    <button onclick="addLog('INFO','User logged in')">
+        Generate Info Log
+    </button>
+
+    <button onclick="addLog('WARNING','API response delayed')">
+        Generate Warning Log
+    </button>
+
+    <button onclick="addLog('ERROR','Database connection failed')">
+        Generate Error Log
+    </button>
+
+    <button onclick="clearLogs()">
+        Clear Logs
+    </button>
+
+    <div id="logs" class="log-container"></div>
+</div>
+
+<script>
+const logsDiv = document.getElementById("logs");
+
+function addLog(level, message) {
+
+    const timestamp = new Date().toLocaleString();
+
+    const logEntry = document.createElement("div");
+
+    let className = "info";
+
+    if (level === "WARNING") {
+        className = "warning";
+    }
+
+    if (level === "ERROR") {
+        className = "error";
+    }
+
+    if (level === "SUCCESS") {
+        className = "success";
+    }
+
+    logEntry.className = className;
+
+    logEntry.innerHTML =
+        `[${timestamp}] [${level}] ${message}`;
+
+    logsDiv.appendChild(logEntry);
+
+    logsDiv.scrollTop = logsDiv.scrollHeight;
+
+    saveLog({
+        timestamp,
+        level,
+        message
+    });
+}
+
+function saveLog(log) {
+    let storedLogs =
+        JSON.parse(localStorage.getItem("appLogs")) || [];
+
+    storedLogs.push(log);
+
+    localStorage.setItem(
+        "appLogs",
+        JSON.stringify(storedLogs)
+    );
+}
+
+function loadLogs() {
+
+    let storedLogs =
+        JSON.parse(localStorage.getItem("appLogs")) || [];
+
+    storedLogs.forEach(log => {
+        addLog(log.level, log.message);
+    });
+}
+
+function clearLogs() {
+    localStorage.removeItem("appLogs");
+    logsDiv.innerHTML = "";
+}
+
+window.onload = loadLogs;
+</script>
+
+</body>
+</html>

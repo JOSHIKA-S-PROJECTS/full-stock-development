@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cron Job Scheduler Dashboard</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+    }
+
+    button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background: #007bff;
+        color: white;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Cron Job Scheduler</h2>
+
+    <label>Job Name</label>
+    <input type="text" id="jobName" placeholder="Enter Job Name">
+
+    <label>Cron Expression</label>
+    <input type="text" id="cronExp"
+           placeholder="0 * * * *">
+
+    <label>Task Type</label>
+    <select id="taskType">
+        <option>Email Notification</option>
+        <option>Database Backup</option>
+        <option>Report Generation</option>
+        <option>Data Synchronization</option>
+    </select>
+
+    <button onclick="addJob()">Add Schedule</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Job Name</th>
+                <th>Cron Expression</th>
+                <th>Task</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="jobTable"></tbody>
+    </table>
+</div>
+
+<script>
+function addJob() {
+    const name = document.getElementById("jobName").value;
+    const cron = document.getElementById("cronExp").value;
+    const task = document.getElementById("taskType").value;
+
+    if (!name || !cron) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    const row = `
+        <tr>
+            <td>${name}</td>
+            <td>${cron}</td>
+            <td>${task}</td>
+            <td>Scheduled</td>
+        </tr>
+    `;
+
+    document.getElementById("jobTable")
+        .insertAdjacentHTML("beforeend", row);
+
+    document.getElementById("jobName").value = "";
+    document.getElementById("cronExp").value = "";
+}
+</script>
+
+</body>
+</html>

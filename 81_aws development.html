@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AWS Deployment Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f4f6f9;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #ff9900;
+        }
+        pre {
+            background: #272822;
+            color: #fff;
+            padding: 15px;
+            overflow-x: auto;
+        }
+        button {
+            background: #ff9900;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>AWS Deployment Instructions</h1>
+
+    <h2>1. Install AWS CLI</h2>
+    <pre>
+https://aws.amazon.com/cli/
+    </pre>
+
+    <h2>2. Configure AWS Credentials</h2>
+    <pre>
+aws configure
+
+AWS Access Key ID: YOUR_KEY
+AWS Secret Access Key: YOUR_SECRET
+Region: ap-south-1
+Output Format: json
+    </pre>
+
+    <h2>3. Deploy Static Website to S3</h2>
+    <pre>
+aws s3 mb s3://my-static-website
+
+aws s3 sync ./website s3://my-static-website
+
+aws s3 website s3://my-static-website \
+--index-document index.html \
+--error-document error.html
+    </pre>
+
+    <h2>4. Deploy Docker App to EC2</h2>
+    <pre>
+ssh -i key.pem ec2-user@your-ec2-ip
+
+docker pull your-image
+
+docker run -d -p 80:3000 your-image
+    </pre>
+
+    <button onclick="showMessage()">
+        Check Deployment Status
+    </button>
+
+    <p id="status"></p>
+</div>
+
+<script>
+function showMessage() {
+    document.getElementById("status").innerHTML =
+        "Deployment status can be checked using AWS Console, CloudWatch, or AWS CLI.";
+}
+</script>
+
+</body>
+</html>
