@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banking Application</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+}
+
+.container{
+    width:90%;
+    max-width:900px;
+    margin:30px auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h1,h2{
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    background:#0066cc;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+button:hover{
+    background:#004c99;
+}
+
+.balance{
+    font-size:30px;
+    color:green;
+    text-align:center;
+    margin:20px 0;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:15px;
+}
+
+.transaction-list{
+    max-height:250px;
+    overflow-y:auto;
+}
+
+.transaction{
+    padding:10px;
+    margin:5px 0;
+    border-left:5px solid #0066cc;
+    background:#f7f7f7;
+}
+
+.hidden{
+    display:none;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Login -->
+    <div class="card" id="loginSection">
+        <h1>Online Banking System</h1>
+
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="login()">Login</button>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="hidden" id="dashboard">
+
+        <div class="card">
+            <h2>Customer Dashboard</h2>
+
+            <div class="balance">
+                ₹ <span id="balance">50000</span>
+            </div>
+
+            <div class="row">
+
+                <!-- Deposit -->
+                <div class="card">
+                    <h3>Deposit</h3>
+                    <input type="number" id="depositAmount"
+                        placeholder="Enter Amount">
+                    <button onclick="deposit()">Deposit</button>
+                </div>
+
+                <!-- Withdraw -->
+                <div class="card">
+                    <h3>Withdraw</h3>
+                    <input type="number" id="withdrawAmount"
+                        placeholder="Enter Amount">
+                    <button onclick="withdraw()">Withdraw</button>
+                </div>
+
+                <!-- Transfer -->
+                <div class="card">
+                    <h3>Transfer</h3>
+                    <input type="text" id="receiver"
+                        placeholder="Receiver Name">
+                    <input type="number" id="transferAmount"
+                        placeholder="Amount">
+                    <button onclick="transfer()">Transfer</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Transactions -->
+        <div class="card">
+            <h2>Transaction History</h2>
+
+            <div class="transaction-list" id="transactions">
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let currentBalance = 50000;
+
+function login() {
+
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+
+    if(user === "admin" && pass === "1234") {
+
+        document.getElementById("loginSection")
+            .classList.add("hidden");
+
+        document.getElementById("dashboard")
+            .classList.remove("hidden");
+
+        addTransaction("Login Successful");
+
+    } else {
+        alert("Invalid Credentials");
+    }
+}
+
+function updateBalance() {
+    document.getElementById("balance").innerText =
+        currentBalance.toFixed(2);
+}
+
+function addTransaction(message) {
+
+    let transactionDiv =
+        document.createElement("div");
+
+    transactionDiv.className = "transaction";
+
+    transactionDiv.innerHTML =
+        new Date().toLocaleString() +
+        "<br>" +
+        message;
+
+    document.getElementById("transactions")
+        .prepend(transactionDiv);
+}
+
+function deposit() {
+
+    let amount =
+        parseFloat(
+            document.getElementById("depositAmount").value
+        );
+
+    if(amount > 0) {
+
+        currentBalance += amount;
+
+        updateBalance();
+
+        addTransaction(
+            "Deposited ₹" + amount
+        );
+
+        document.getElementById("depositAmount").value="";
+    }
+}
+
+function withdraw() {
+
+    let amount =
+        parseFloat(
+            document.getElementById("withdrawAmount").value
+        );
+
+    if(amount > 0 && amount <= currentBalance) {
+
+        currentBalance -= amount;
+
+        updateBalance();
+
+        addTransaction(
+            "Withdrawn ₹" + amount
+        );
+
+        document.getElementById("withdrawAmount").value="";
+    }
+    else {
+        alert("Insufficient Balance");
+    }
+}
+
+function transfer() {
+
+    let receiver =
+        document.getElementById("receiver").value;
+
+    let amount =
+        parseFloat(
+            document.getElementById("transferAmount").value
+        );
+
+    if(receiver && amount > 0 &&
+        amount <= currentBalance) {
+
+        currentBalance -= amount;
+
+        updateBalance();
+
+        addTransaction(
+            "Transferred ₹" + amount +
+            " to " + receiver
+        );
+
+        document.getElementById("receiver").value="";
+        document.getElementById("transferAmount").value="";
+    }
+    else {
+        alert("Transfer Failed");
+    }
+}
+
+updateBalance();
+
+</script>
+
+</body>
+</html>

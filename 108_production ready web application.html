@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Production Web Application</title>
+
+<style>
+:root{
+    --primary:#2563eb;
+    --secondary:#1e293b;
+    --success:#22c55e;
+    --danger:#ef4444;
+    --bg:#f5f7fa;
+    --card:#ffffff;
+    --text:#222;
+}
+
+.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#ffffff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    transition:.3s;
+}
+
+.navbar{
+    background:var(--secondary);
+    color:white;
+    padding:15px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.nav-links{
+    display:flex;
+    gap:20px;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+}
+
+.container{
+    padding:25px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:var(--card);
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.metric{
+    font-size:30px;
+    font-weight:bold;
+    color:var(--primary);
+}
+
+.table-container{
+    margin-top:25px;
+    background:var(--card);
+    border-radius:12px;
+    overflow:hidden;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:14px;
+    border-bottom:1px solid #ddd;
+}
+
+th{
+    background:var(--primary);
+    color:white;
+}
+
+.btn{
+    padding:10px 15px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-success{
+    background:var(--success);
+    color:white;
+}
+
+.btn-danger{
+    background:var(--danger);
+    color:white;
+}
+
+.notification{
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:var(--success);
+    color:white;
+    padding:15px;
+    border-radius:8px;
+    display:none;
+}
+
+.loader{
+    width:40px;
+    height:40px;
+    border:4px solid #ddd;
+    border-top:4px solid var(--primary);
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:auto;
+}
+
+@keyframes spin{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
+.form-group{
+    margin:15px 0;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+.footer{
+    text-align:center;
+    padding:20px;
+    margin-top:40px;
+}
+
+@media(max-width:768px){
+    .navbar{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <h2>Enterprise App</h2>
+
+    <div class="nav-links">
+        <a href="#">Dashboard</a>
+        <a href="#">Users</a>
+        <a href="#">Reports</a>
+        <a href="#">Settings</a>
+    </div>
+
+    <button class="btn btn-primary" onclick="toggleTheme()">
+        Toggle Theme
+    </button>
+</div>
+
+<div class="container">
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Users</h3>
+            <div class="metric">12,540</div>
+        </div>
+
+        <div class="card">
+            <h3>Revenue</h3>
+            <div class="metric">$84,200</div>
+        </div>
+
+        <div class="card">
+            <h3>Orders</h3>
+            <div class="metric">5,430</div>
+        </div>
+
+        <div class="card">
+            <h3>Performance</h3>
+            <div class="metric">98.9%</div>
+        </div>
+
+    </div>
+
+    <div class="card" style="margin-top:25px;">
+        <h3>Create User</h3>
+
+        <div class="form-group">
+            <input type="text" id="username" placeholder="Username">
+        </div>
+
+        <div class="form-group">
+            <input type="email" id="email" placeholder="Email">
+        </div>
+
+        <button class="btn btn-success" onclick="createUser()">
+            Create User
+        </button>
+    </div>
+
+    <div class="table-container">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="userTable">
+                <tr>
+                    <td>1</td>
+                    <td>Admin</td>
+                    <td>admin@example.com</td>
+                    <td>Active</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="notification" id="notification">
+    Operation Successful
+</div>
+
+<div class="footer">
+    Production Ready Web Application Template
+</div>
+
+<script>
+
+let userId = 2;
+
+function createUser(){
+
+    const username =
+        document.getElementById("username").value;
+
+    const email =
+        document.getElementById("email").value;
+
+    if(!username || !email){
+        alert("Please fill all fields");
+        return;
+    }
+
+    const table =
+        document.getElementById("userTable");
+
+    table.innerHTML += `
+    <tr>
+        <td>${userId++}</td>
+        <td>${username}</td>
+        <td>${email}</td>
+        <td>Active</td>
+    </tr>
+    `;
+
+    showNotification("User Created");
+
+    document.getElementById("username").value="";
+    document.getElementById("email").value="";
+}
+
+function showNotification(message){
+
+    const notification =
+        document.getElementById("notification");
+
+    notification.innerText = message;
+    notification.style.display = "block";
+
+    setTimeout(()=>{
+        notification.style.display = "none";
+    },3000);
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+}
+
+window.addEventListener("load",()=>{
+    console.log("Application Loaded");
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise ERP System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+}
+
+.container{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:260px;
+    background:#1e293b;
+    color:white;
+    padding:20px;
+}
+
+.sidebar h2{
+    margin-bottom:30px;
+    text-align:center;
+}
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar li{
+    padding:12px;
+    margin:8px 0;
+    cursor:pointer;
+    border-radius:6px;
+}
+
+.sidebar li:hover{
+    background:#334155;
+}
+
+.main{
+    flex:1;
+    padding:20px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.card h3{
+    color:#666;
+}
+
+.card p{
+    font-size:28px;
+    color:#2563eb;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.section{
+    margin-top:25px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:left;
+}
+
+th{
+    background:#2563eb;
+    color:white;
+}
+
+input,select{
+    padding:10px;
+    margin:5px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    padding:10px 15px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="sidebar">
+        <h2>ERP Suite</h2>
+
+        <ul>
+            <li>Dashboard</li>
+            <li>Users</li>
+            <li>Inventory</li>
+            <li>Sales</li>
+            <li>HR</li>
+            <li>Finance</li>
+            <li>Reports</li>
+            <li>Settings</li>
+        </ul>
+    </div>
+
+    <div class="main">
+
+        <div class="header">
+            <h1>Enterprise ERP Dashboard</h1>
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Total Revenue</h3>
+                <p>$425K</p>
+            </div>
+
+            <div class="card">
+                <h3>Orders</h3>
+                <p>1,540</p>
+            </div>
+
+            <div class="card">
+                <h3>Employees</h3>
+                <p>210</p>
+            </div>
+
+            <div class="card">
+                <h3>Inventory</h3>
+                <p>8,450</p>
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>User Management</h2>
+
+            <br>
+
+            <input type="text" id="name" placeholder="Employee Name">
+
+            <select id="role">
+                <option>Admin</option>
+                <option>Manager</option>
+                <option>Employee</option>
+            </select>
+
+            <button onclick="addUser()">
+                Add User
+            </button>
+
+            <br><br>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+
+                <tbody id="userTable">
+                    <tr>
+                        <td>1</td>
+                        <td>John Smith</td>
+                        <td>Admin</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="section">
+
+            <h2>Inventory Management</h2>
+
+            <br>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Laptop</td>
+                        <td>150</td>
+                        <td>Available</td>
+                    </tr>
+
+                    <tr>
+                        <td>Printer</td>
+                        <td>20</td>
+                        <td>Low Stock</td>
+                    </tr>
+
+                    <tr>
+                        <td>Monitor</td>
+                        <td>75</td>
+                        <td>Available</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let id = 2;
+
+function addUser(){
+
+    const name =
+        document.getElementById("name").value;
+
+    const role =
+        document.getElementById("role").value;
+
+    if(!name){
+        alert("Enter employee name");
+        return;
+    }
+
+    const row = `
+    <tr>
+        <td>${id++}</td>
+        <td>${name}</td>
+        <td>${role}</td>
+    </tr>`;
+
+    document
+        .getElementById("userTable")
+        .innerHTML += row;
+
+    document.getElementById("name").value="";
+}
+
+function logout(){
+    alert("Logout Successful");
+}
+
+</script>
+
+</body>
+</html>

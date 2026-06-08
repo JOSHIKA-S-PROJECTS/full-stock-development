@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Storage Application</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+}
+
+.container{
+    max-width:1200px;
+    margin:20px auto;
+    padding:20px;
+}
+
+.header{
+    background:#2563eb;
+    color:white;
+    padding:20px;
+    border-radius:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.storage-card{
+    background:white;
+    margin-top:20px;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.progress{
+    width:100%;
+    height:20px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:10px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#22c55e;
+}
+
+.upload-section{
+    background:white;
+    padding:20px;
+    margin-top:20px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+input[type="file"]{
+    margin:10px 0;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.search-box{
+    width:100%;
+    padding:10px;
+    margin-top:20px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+.file-list{
+    margin-top:20px;
+}
+
+.file-item{
+    background:white;
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.file-info{
+    display:flex;
+    flex-direction:column;
+}
+
+.file-name{
+    font-weight:bold;
+}
+
+.file-size{
+    color:#666;
+    font-size:14px;
+}
+
+.delete-btn{
+    background:#ef4444;
+}
+
+.delete-btn:hover{
+    background:#dc2626;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>☁ Cloud Storage</h1>
+        <span>User Drive</span>
+    </div>
+
+    <div class="storage-card">
+        <h3>Storage Usage</h3>
+        <p id="usageText">0 MB of 1000 MB Used</p>
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <div class="upload-section">
+        <h3>Upload File</h3>
+        <input type="file" id="fileInput">
+        <button onclick="uploadFile()">Upload</button>
+    </div>
+
+    <input
+        type="text"
+        class="search-box"
+        id="searchInput"
+        placeholder="Search files..."
+        onkeyup="renderFiles()">
+
+    <div class="file-list" id="fileList"></div>
+
+</div>
+
+<script>
+
+const STORAGE_LIMIT = 1000; // MB
+
+let files = JSON.parse(localStorage.getItem("cloudFiles")) || [];
+
+function uploadFile() {
+
+    const input = document.getElementById("fileInput");
+
+    if(input.files.length === 0){
+        alert("Select a file first");
+        return;
+    }
+
+    const file = input.files[0];
+
+    const fileData = {
+        id: Date.now(),
+        name: file.name,
+        size: (file.size / (1024 * 1024)).toFixed(2),
+        type: file.type,
+        uploadedAt: new Date().toLocaleString()
+    };
+
+    files.push(fileData);
+
+    localStorage.setItem("cloudFiles", JSON.stringify(files));
+
+    renderFiles();
+    updateUsage();
+
+    input.value = "";
+}
+
+function deleteFile(id){
+
+    files = files.filter(file => file.id !== id);
+
+    localStorage.setItem("cloudFiles", JSON.stringify(files));
+
+    renderFiles();
+    updateUsage();
+}
+
+function renderFiles(){
+
+    const fileList = document.getElementById("fileList");
+    const search = document.getElementById("searchInput").value.toLowerCase();
+
+    const filtered = files.filter(file =>
+        file.name.toLowerCase().includes(search)
+    );
+
+    fileList.innerHTML = "";
+
+    if(filtered.length === 0){
+        fileList.innerHTML = "<p>No files found.</p>";
+        return;
+    }
+
+    filtered.forEach(file => {
+
+        fileList.innerHTML += `
+            <div class="file-item">
+                <div class="file-info">
+                    <span class="file-name">${file.name}</span>
+                    <span class="file-size">
+                        ${file.size} MB |
+                        ${file.uploadedAt}
+                    </span>
+                </div>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteFile(${file.id})">
+                    Delete
+                </button>
+            </div>
+        `;
+    });
+}
+
+function updateUsage(){
+
+    let used = files.reduce((sum, file) =>
+        sum + parseFloat(file.size), 0);
+
+    document.getElementById("usageText").innerText =
+        `${used.toFixed(2)} MB of ${STORAGE_LIMIT} MB Used`;
+
+    let percent = (used / STORAGE_LIMIT) * 100;
+
+    document.getElementById("progressBar").style.width =
+        Math.min(percent, 100) + "%";
+}
+
+renderFiles();
+updateUsage();
+
+</script>
+
+</body>
+</html>

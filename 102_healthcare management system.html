@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Healthcare Management System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fa;
+    padding:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    background:#0ea5e9;
+    color:white;
+    padding:20px;
+    text-align:center;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.form-section,
+.table-section{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    color:white;
+}
+
+.add-btn{
+    background:#16a34a;
+}
+
+.edit-btn{
+    background:#f59e0b;
+}
+
+.delete-btn{
+    background:#dc2626;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th,
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table th{
+    background:#0ea5e9;
+    color:white;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Healthcare Management System</h1>
+    </div>
+
+    <div class="dashboard">
+        <div class="card">
+            <h3>Total Patients</h3>
+            <h2 id="totalPatients">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Appointments</h3>
+            <h2 id="totalAppointments">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Doctors Available</h3>
+            <h2>5</h2>
+        </div>
+    </div>
+
+    <div class="form-section">
+
+        <h2>Patient Registration</h2>
+
+        <input type="hidden" id="patientId">
+
+        <input type="text"
+               id="patientName"
+               placeholder="Patient Name">
+
+        <input type="number"
+               id="age"
+               placeholder="Age">
+
+        <input type="text"
+               id="gender"
+               placeholder="Gender">
+
+        <input type="text"
+               id="doctor"
+               placeholder="Assigned Doctor">
+
+        <input type="date"
+               id="appointmentDate">
+
+        <button class="add-btn"
+                onclick="savePatient()">
+            Save Patient
+        </button>
+
+    </div>
+
+    <div class="table-section">
+
+        <input type="text"
+               id="search"
+               placeholder="Search Patient..."
+               onkeyup="searchPatient()">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Doctor</th>
+                    <th>Appointment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="patientTable"></tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+let patients = [];
+let nextId = 1;
+
+function savePatient(){
+
+    const id =
+        document.getElementById("patientId").value;
+
+    const patient = {
+        name: document.getElementById("patientName").value,
+        age: document.getElementById("age").value,
+        gender: document.getElementById("gender").value,
+        doctor: document.getElementById("doctor").value,
+        appointment:
+        document.getElementById("appointmentDate").value
+    };
+
+    if(!patient.name ||
+       !patient.age ||
+       !patient.gender ||
+       !patient.doctor ||
+       !patient.appointment){
+
+        alert("Please fill all fields");
+        return;
+    }
+
+    if(id){
+
+        let index =
+            patients.findIndex(
+                p => p.id == id
+            );
+
+        patients[index] = {
+            id:Number(id),
+            ...patient
+        };
+
+    }else{
+
+        patients.push({
+            id:nextId++,
+            ...patient
+        });
+    }
+
+    clearForm();
+    displayPatients(patients);
+}
+
+function displayPatients(data){
+
+    const table =
+        document.getElementById("patientTable");
+
+    table.innerHTML = "";
+
+    data.forEach(patient => {
+
+        table.innerHTML += `
+        <tr>
+            <td>${patient.id}</td>
+            <td>${patient.name}</td>
+            <td>${patient.age}</td>
+            <td>${patient.gender}</td>
+            <td>${patient.doctor}</td>
+            <td>${patient.appointment}</td>
+            <td>
+
+                <button class="edit-btn"
+                onclick="editPatient(${patient.id})">
+                Edit
+                </button>
+
+                <button class="delete-btn"
+                onclick="deletePatient(${patient.id})">
+                Delete
+                </button>
+
+            </td>
+        </tr>
+        `;
+    });
+
+    updateDashboard();
+}
+
+function editPatient(id){
+
+    const patient =
+        patients.find(p => p.id === id);
+
+    document.getElementById("patientId").value =
+        patient.id;
+
+    document.getElementById("patientName").value =
+        patient.name;
+
+    document.getElementById("age").value =
+        patient.age;
+
+    document.getElementById("gender").value =
+        patient.gender;
+
+    document.getElementById("doctor").value =
+        patient.doctor;
+
+    document.getElementById("appointmentDate").value =
+        patient.appointment;
+}
+
+function deletePatient(id){
+
+    if(confirm("Delete patient record?")){
+
+        patients =
+            patients.filter(
+                p => p.id !== id
+            );
+
+        displayPatients(patients);
+    }
+}
+
+function searchPatient(){
+
+    const keyword =
+        document.getElementById("search")
+        .value.toLowerCase();
+
+    const filtered =
+        patients.filter(patient =>
+
+            patient.name.toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            patient.doctor.toLowerCase()
+            .includes(keyword)
+        );
+
+    displayPatients(filtered);
+}
+
+function updateDashboard(){
+
+    document.getElementById("totalPatients")
+        .innerText = patients.length;
+
+    document.getElementById("totalAppointments")
+        .innerText = patients.length;
+}
+
+function clearForm(){
+
+    document.getElementById("patientId").value = "";
+    document.getElementById("patientName").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("gender").value = "";
+    document.getElementById("doctor").value = "";
+    document.getElementById("appointmentDate").value = "";
+}
+
+displayPatients(patients);
+
+</script>
+
+</body>
+</html>

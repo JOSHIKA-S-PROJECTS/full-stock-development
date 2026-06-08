@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Management App</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+.container{
+    display:flex;
+    min-height:100vh;
+}
+
+/* Sidebar */
+.sidebar{
+    width:250px;
+    background:#1e293b;
+    color:white;
+    padding:20px;
+}
+
+.sidebar h2{
+    margin-bottom:30px;
+    text-align:center;
+}
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar ul li{
+    padding:12px;
+    margin-bottom:8px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.sidebar ul li:hover{
+    background:#334155;
+}
+
+/* Main */
+.main{
+    flex:1;
+    padding:20px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.header input{
+    padding:10px;
+    width:300px;
+    border:1px solid #ddd;
+    border-radius:5px;
+}
+
+/* Dashboard Cards */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card h3{
+    color:#666;
+}
+
+.card p{
+    font-size:28px;
+    font-weight:bold;
+    margin-top:10px;
+    color:#2563eb;
+}
+
+/* Sections */
+.content{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.section{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Task Form */
+.form-group{
+    margin-bottom:10px;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+/* Task List */
+.task{
+    border:1px solid #ddd;
+    padding:12px;
+    border-radius:8px;
+    margin-top:10px;
+}
+
+.task h4{
+    margin-bottom:5px;
+}
+
+.badge{
+    padding:4px 8px;
+    border-radius:20px;
+    color:white;
+    font-size:12px;
+}
+
+.todo{
+    background:#ef4444;
+}
+
+.progress{
+    background:#f59e0b;
+}
+
+.done{
+    background:#22c55e;
+}
+
+/* Team */
+.member{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+}
+
+.status-online{
+    color:green;
+    font-weight:bold;
+}
+
+@media(max-width:768px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .content{
+        grid-template-columns:1fr;
+    }
+
+    .header input{
+        width:180px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>ProjectHub</h2>
+
+        <ul>
+            <li>📊 Dashboard</li>
+            <li>📁 Projects</li>
+            <li>✅ Tasks</li>
+            <li>👥 Team</li>
+            <li>📅 Calendar</li>
+            <li>⚙ Settings</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+
+        <div class="header">
+            <h1>Real-Time Project Management</h1>
+            <input type="text" placeholder="Search project...">
+        </div>
+
+        <!-- Stats -->
+        <div class="cards">
+
+            <div class="card">
+                <h3>Projects</h3>
+                <p id="projectCount">5</p>
+            </div>
+
+            <div class="card">
+                <h3>Tasks</h3>
+                <p id="taskCount">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Completed</h3>
+                <p id="completedCount">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Team Members</h3>
+                <p>8</p>
+            </div>
+
+        </div>
+
+        <div class="content">
+
+            <!-- Task Manager -->
+            <div class="section">
+
+                <h2>Create Task</h2>
+
+                <div class="form-group">
+                    <input type="text" id="taskName"
+                        placeholder="Task Name">
+                </div>
+
+                <div class="form-group">
+                    <select id="taskStatus">
+                        <option value="todo">To Do</option>
+                        <option value="progress">In Progress</option>
+                        <option value="done">Completed</option>
+                    </select>
+                </div>
+
+                <button onclick="addTask()">Add Task</button>
+
+                <h2 style="margin-top:20px;">Project Tasks</h2>
+
+                <div id="taskList"></div>
+
+            </div>
+
+            <!-- Team -->
+            <div class="section">
+
+                <h2>Team Members</h2>
+
+                <div class="member">
+                    <span>John Smith</span>
+                    <span class="status-online">Online</span>
+                </div>
+
+                <div class="member">
+                    <span>Emma Davis</span>
+                    <span class="status-online">Online</span>
+                </div>
+
+                <div class="member">
+                    <span>Michael Lee</span>
+                    <span class="status-online">Online</span>
+                </div>
+
+                <div class="member">
+                    <span>Sophia Brown</span>
+                    <span class="status-online">Online</span>
+                </div>
+
+                <h3 style="margin-top:20px;">
+                    Activity Feed
+                </h3>
+
+                <ul id="activityFeed"
+                    style="margin-top:10px;padding-left:20px;">
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let tasks = [];
+
+function addTask(){
+
+    const name =
+        document.getElementById("taskName").value;
+
+    const status =
+        document.getElementById("taskStatus").value;
+
+    if(name === ""){
+        alert("Enter task name");
+        return;
+    }
+
+    const task = {
+        id: Date.now(),
+        name,
+        status
+    };
+
+    tasks.push(task);
+
+    document.getElementById("taskName").value = "";
+
+    renderTasks();
+    updateStats();
+    addActivity("New task created: " + name);
+}
+
+function renderTasks(){
+
+    const list =
+        document.getElementById("taskList");
+
+    list.innerHTML = "";
+
+    tasks.forEach(task => {
+
+        list.innerHTML += `
+        <div class="task">
+            <h4>${task.name}</h4>
+            <span class="badge ${task.status}">
+                ${task.status.toUpperCase()}
+            </span>
+        </div>`;
+    });
+}
+
+function updateStats(){
+
+    document.getElementById("taskCount")
+        .innerText = tasks.length;
+
+    const completed =
+        tasks.filter(
+            t => t.status === "done"
+        ).length;
+
+    document.getElementById("completedCount")
+        .innerText = completed;
+}
+
+function addActivity(message){
+
+    const feed =
+        document.getElementById("activityFeed");
+
+    const li = document.createElement("li");
+
+    li.innerText =
+        new Date().toLocaleTimeString() +
+        " - " + message;
+
+    feed.prepend(li);
+}
+
+/* Simulated real-time updates */
+setInterval(() => {
+
+    const events = [
+        "Team member updated project",
+        "Task status changed",
+        "File uploaded",
+        "New comment added",
+        "Sprint updated"
+    ];
+
+    const random =
+        events[Math.floor(
+            Math.random() * events.length
+        )];
+
+    addActivity(random);
+
+}, 5000);
+
+</script>
+
+</body>
+</html>

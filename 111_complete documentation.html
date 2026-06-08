@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Documentation</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    color:#333;
+}
+
+header{
+    background:#1e3a8a;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.container{
+    display:flex;
+}
+
+.sidebar{
+    width:280px;
+    background:#111827;
+    min-height:100vh;
+    padding:20px;
+}
+
+.sidebar h2{
+    color:white;
+    margin-bottom:20px;
+}
+
+.sidebar a{
+    display:block;
+    color:#d1d5db;
+    text-decoration:none;
+    padding:10px;
+    margin:5px 0;
+    border-radius:5px;
+}
+
+.sidebar a:hover{
+    background:#374151;
+}
+
+.content{
+    flex:1;
+    padding:30px;
+}
+
+.section{
+    background:white;
+    padding:25px;
+    margin-bottom:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.section h2{
+    color:#1e3a8a;
+    margin-bottom:15px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+table, th, td{
+    border:1px solid #ddd;
+}
+
+th{
+    background:#1e3a8a;
+    color:white;
+}
+
+th, td{
+    padding:12px;
+    text-align:left;
+}
+
+code{
+    background:#f1f5f9;
+    padding:3px 6px;
+    border-radius:4px;
+}
+
+pre{
+    background:#111827;
+    color:#fff;
+    padding:15px;
+    border-radius:8px;
+    overflow:auto;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    background:#1e3a8a;
+    color:white;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Enterprise Web Application Documentation</h1>
+    <p>Version 1.0.0</p>
+</header>
+
+<div class="container">
+
+    <div class="sidebar">
+        <h2>Contents</h2>
+
+        <a href="#overview">Project Overview</a>
+        <a href="#requirements">Requirements</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#database">Database Design</a>
+        <a href="#api">API Documentation</a>
+        <a href="#security">Security</a>
+        <a href="#deployment">Deployment</a>
+        <a href="#testing">Testing</a>
+        <a href="#monitoring">Monitoring</a>
+        <a href="#maintenance">Maintenance</a>
+    </div>
+
+    <div class="content">
+
+        <div class="section" id="overview">
+            <h2>1. Project Overview</h2>
+
+            <p>
+                This document describes the complete architecture,
+                implementation, deployment, testing, and maintenance
+                of the enterprise web application.
+            </p>
+
+            <h3>Objectives</h3>
+            <ul>
+                <li>Scalable architecture</li>
+                <li>Secure authentication</li>
+                <li>High availability</li>
+                <li>API-driven development</li>
+                <li>Cloud deployment</li>
+            </ul>
+        </div>
+
+        <div class="section" id="requirements">
+            <h2>2. System Requirements</h2>
+
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Technology</th>
+                </tr>
+
+                <tr>
+                    <td>Frontend</td>
+                    <td>HTML, CSS, JavaScript</td>
+                </tr>
+
+                <tr>
+                    <td>Backend</td>
+                    <td>Node.js / Express</td>
+                </tr>
+
+                <tr>
+                    <td>Database</td>
+                    <td>MySQL / PostgreSQL</td>
+                </tr>
+
+                <tr>
+                    <td>Cache</td>
+                    <td>Redis</td>
+                </tr>
+
+                <tr>
+                    <td>Cloud</td>
+                    <td>AWS</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section" id="architecture">
+            <h2>3. Architecture</h2>
+
+<pre>
+Client
+   |
+Frontend
+   |
+REST API
+   |
+Backend Services
+   |
+Database + Redis
+   |
+Cloud Infrastructure
+</pre>
+
+            <p>
+                The application follows a layered architecture
+                with separation of concerns.
+            </p>
+        </div>
+
+        <div class="section" id="database">
+            <h2>4. Database Schema</h2>
+
+            <table>
+                <tr>
+                    <th>Table</th>
+                    <th>Description</th>
+                </tr>
+
+                <tr>
+                    <td>users</td>
+                    <td>User accounts</td>
+                </tr>
+
+                <tr>
+                    <td>roles</td>
+                    <td>Access permissions</td>
+                </tr>
+
+                <tr>
+                    <td>products</td>
+                    <td>Application products</td>
+                </tr>
+
+                <tr>
+                    <td>orders</td>
+                    <td>Customer orders</td>
+                </tr>
+
+                <tr>
+                    <td>logs</td>
+                    <td>System logs</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section" id="api">
+            <h2>5. API Documentation</h2>
+
+            <h3>Login API</h3>
+
+            <p><strong>Endpoint:</strong></p>
+
+            <code>POST /api/auth/login</code>
+
+            <h4>Request</h4>
+
+<pre>
+{
+  "email":"user@example.com",
+  "password":"******"
+}
+</pre>
+
+            <h4>Response</h4>
+
+<pre>
+{
+  "success": true,
+  "token": "JWT_TOKEN"
+}
+</pre>
+
+            <h3>Get Users</h3>
+
+            <code>GET /api/users</code>
+        </div>
+
+        <div class="section" id="security">
+            <h2>6. Security Standards</h2>
+
+            <ul>
+                <li>JWT Authentication</li>
+                <li>Password Hashing</li>
+                <li>HTTPS Encryption</li>
+                <li>Rate Limiting</li>
+                <li>Role Based Access Control</li>
+                <li>Input Validation</li>
+                <li>XSS Protection</li>
+                <li>CSRF Protection</li>
+            </ul>
+        </div>
+
+        <div class="section" id="deployment">
+            <h2>7. Deployment Guide</h2>
+
+<pre>
+1. Clone Repository
+2. Install Dependencies
+3. Configure Environment Variables
+4. Run Database Migration
+5. Start Application
+6. Configure Nginx
+7. Enable SSL
+8. Deploy to AWS
+</pre>
+
+            <h3>Environment Variables</h3>
+
+<pre>
+PORT=3000
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=password
+JWT_SECRET=secret
+REDIS_URL=localhost
+</pre>
+        </div>
+
+        <div class="section" id="testing">
+            <h2>8. Testing Strategy</h2>
+
+            <table>
+                <tr>
+                    <th>Test Type</th>
+                    <th>Description</th>
+                </tr>
+
+                <tr>
+                    <td>Unit Testing</td>
+                    <td>Module testing</td>
+                </tr>
+
+                <tr>
+                    <td>Integration Testing</td>
+                    <td>API testing</td>
+                </tr>
+
+                <tr>
+                    <td>Performance Testing</td>
+                    <td>Load testing</td>
+                </tr>
+
+                <tr>
+                    <td>Security Testing</td>
+                    <td>Vulnerability scanning</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section" id="monitoring">
+            <h2>9. Monitoring & Logging</h2>
+
+            <ul>
+                <li>Application Logs</li>
+                <li>Error Tracking</li>
+                <li>Server Monitoring</li>
+                <li>Performance Metrics</li>
+                <li>Audit Logs</li>
+                <li>Health Checks</li>
+            </ul>
+        </div>
+
+        <div class="section" id="maintenance">
+            <h2>10. Maintenance Plan</h2>
+
+            <ul>
+                <li>Weekly backups</li>
+                <li>Monthly security updates</li>
+                <li>Quarterly performance review</li>
+                <li>Database optimization</li>
+                <li>Code refactoring</li>
+                <li>Infrastructure scaling</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 Enterprise Documentation System</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Architecture Dashboard</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+.header{
+    background:#1e293b;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.container{
+    padding:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.card h3{
+    margin-bottom:15px;
+    color:#2563eb;
+}
+
+.service{
+    display:flex;
+    justify-content:space-between;
+    padding:10px;
+    margin:8px 0;
+    background:#f8fafc;
+    border-radius:6px;
+}
+
+.status-online{
+    color:green;
+    font-weight:bold;
+}
+
+.status-warning{
+    color:orange;
+    font-weight:bold;
+}
+
+.status-offline{
+    color:red;
+    font-weight:bold;
+}
+
+.diagram{
+    margin-top:20px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+    overflow-x:auto;
+}
+
+.architecture{
+    text-align:center;
+    min-width:900px;
+}
+
+.box{
+    display:inline-block;
+    padding:15px 25px;
+    margin:10px;
+    background:#2563eb;
+    color:white;
+    border-radius:8px;
+}
+
+.arrow{
+    font-size:24px;
+    margin:10px;
+}
+
+.logs{
+    height:200px;
+    overflow:auto;
+    background:#111827;
+    color:#22c55e;
+    padding:15px;
+    border-radius:8px;
+    font-family:monospace;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Enterprise Architecture Dashboard</h1>
+</div>
+
+<div class="container">
+
+    <div class="grid">
+
+        <div class="card">
+            <h3>Microservices</h3>
+
+            <div class="service">
+                <span>User Service</span>
+                <span class="status-online">Online</span>
+            </div>
+
+            <div class="service">
+                <span>Order Service</span>
+                <span class="status-online">Online</span>
+            </div>
+
+            <div class="service">
+                <span>Payment Service</span>
+                <span class="status-warning">Warning</span>
+            </div>
+
+            <div class="service">
+                <span>Notification Service</span>
+                <span class="status-online">Online</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Infrastructure</h3>
+
+            <div class="service">
+                <span>API Gateway</span>
+                <span class="status-online">Healthy</span>
+            </div>
+
+            <div class="service">
+                <span>Redis Cache</span>
+                <span class="status-online">Healthy</span>
+            </div>
+
+            <div class="service">
+                <span>Kafka Queue</span>
+                <span class="status-online">Healthy</span>
+            </div>
+
+            <div class="service">
+                <span>Database Cluster</span>
+                <span class="status-online">Healthy</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>System Metrics</h3>
+
+            <p>CPU Usage: <strong>42%</strong></p>
+            <br>
+
+            <p>Memory Usage: <strong>58%</strong></p>
+            <br>
+
+            <p>Requests/min: <strong>12,450</strong></p>
+            <br>
+
+            <p>Active Users: <strong>4,200</strong></p>
+        </div>
+
+    </div>
+
+    <div class="diagram">
+
+        <h2>Enterprise Architecture Diagram</h2>
+        <br>
+
+        <div class="architecture">
+
+            <div class="box">Web / Mobile Apps</div>
+
+            <div class="arrow">↓</div>
+
+            <div class="box">Load Balancer</div>
+
+            <div class="arrow">↓</div>
+
+            <div class="box">API Gateway</div>
+
+            <br>
+
+            <div class="arrow">↓</div>
+
+            <div class="box">User Service</div>
+            <div class="box">Order Service</div>
+            <div class="box">Payment Service</div>
+            <div class="box">Notification Service</div>
+
+            <br>
+
+            <div class="arrow">↓</div>
+
+            <div class="box">Redis Cache</div>
+            <div class="box">Kafka</div>
+
+            <br>
+
+            <div class="arrow">↓</div>
+
+            <div class="box">PostgreSQL Cluster</div>
+            <div class="box">Object Storage</div>
+
+        </div>
+
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+        <h3>System Logs</h3>
+
+        <div class="logs" id="logs">
+            [INFO] Enterprise platform started...
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+const logs = document.getElementById("logs");
+
+const messages = [
+    "User authenticated successfully",
+    "Order processed",
+    "Cache refreshed",
+    "Database replication healthy",
+    "API Gateway request routed",
+    "Kafka event published",
+    "Microservice health check passed",
+    "Backup completed successfully"
+];
+
+setInterval(() => {
+
+    const msg =
+        messages[Math.floor(
+            Math.random() * messages.length
+        )];
+
+    logs.innerHTML +=
+        "<br>[INFO] " + msg;
+
+    logs.scrollTop =
+        logs.scrollHeight;
+
+}, 3000);
+
+</script>
+
+</body>
+</html>
