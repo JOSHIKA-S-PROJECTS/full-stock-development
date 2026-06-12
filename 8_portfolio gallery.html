@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Gallery</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f8fafc;
+    color:#1e293b;
+}
+
+/* Section */
+.portfolio{
+    padding:80px 8%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.section-title h2{
+    font-size:2.8rem;
+    margin-bottom:15px;
+}
+
+.section-title p{
+    max-width:700px;
+    margin:auto;
+    color:#64748b;
+}
+
+/* Filter Buttons */
+.filter-buttons{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:40px;
+}
+
+.filter-btn{
+    border:none;
+    padding:12px 24px;
+    border-radius:30px;
+    cursor:pointer;
+    background:#e2e8f0;
+    color:#334155;
+    font-weight:600;
+    transition:.3s;
+}
+
+.filter-btn:hover,
+.filter-btn.active{
+    background:#2563eb;
+    color:#fff;
+}
+
+/* Gallery Grid */
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+/* Portfolio Card */
+.portfolio-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:18px;
+    background:#fff;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.portfolio-image{
+    height:240px;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:1.2rem;
+    font-weight:bold;
+}
+
+.portfolio-overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(15,23,42,0.92);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    text-align:center;
+    opacity:0;
+    transition:.4s;
+}
+
+.portfolio-card:hover .portfolio-overlay{
+    opacity:1;
+}
+
+.portfolio-overlay h3{
+    margin-bottom:10px;
+}
+
+.portfolio-overlay p{
+    margin-bottom:20px;
+    color:#cbd5e1;
+}
+
+.view-btn{
+    text-decoration:none;
+    color:white;
+    background:#2563eb;
+    padding:10px 20px;
+    border-radius:6px;
+    transition:.3s;
+}
+
+.view-btn:hover{
+    background:#1d4ed8;
+}
+
+/* CTA */
+.portfolio-cta{
+    text-align:center;
+    margin-top:50px;
+}
+
+.cta-btn{
+    text-decoration:none;
+    background:#2563eb;
+    color:white;
+    padding:14px 30px;
+    border-radius:8px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.cta-btn:hover{
+    background:#1d4ed8;
+}
+
+/* Responsive */
+@media(max-width:768px){
+
+    .section-title h2{
+        font-size:2rem;
+    }
+
+    .portfolio{
+        padding:60px 5%;
+    }
+}
+</style>
+</head>
+<body>
+
+<section class="portfolio">
+
+    <!-- Heading -->
+    <div class="section-title">
+        <h2>Our Portfolio</h2>
+        <p>
+            Explore some of our latest projects and creative
+            solutions delivered for clients worldwide.
+        </p>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="filter-buttons">
+        <button class="filter-btn active">All</button>
+        <button class="filter-btn">Web Design</button>
+        <button class="filter-btn">Mobile Apps</button>
+        <button class="filter-btn">UI/UX</button>
+        <button class="filter-btn">Branding</button>
+    </div>
+
+    <!-- Portfolio Grid -->
+    <div class="gallery">
+
+        <div class="portfolio-card">
+            <div class="portfolio-image">
+                Project Image 1
+            </div>
+
+            <div class="portfolio-overlay">
+                <h3>E-Commerce Platform</h3>
+                <p>
+                    Modern online shopping solution with
+                    payment integration and analytics.
+                </p>
+                <a href="#" class="view-btn">View Project</a>
+            </div>
+        </div>
+
+        <div class="portfolio-card">
+            <div class="portfolio-image">
+                Project Image 2
+            </div>
+
+            <div class="portfolio-overlay">
+                <h3>Business Dashboard</h3>
+                <p>
+                    Enterprise analytics dashboard with
+                    real-time reporting features.
+                </p>
+                <a href="#" class="view-btn">View Project</a>
+            </div>
+        </div>
+
+        <div class="portfolio-card">
+            <div class="portfolio-image">
+                Project Image 3
+            </div>
+
+            <div class="portfolio-overlay">
+                <h3>Mobile Banking App</h3>
+                <p>
+                    Secure and user-friendly banking
+                    application for modern customers.
+                </p>
+                <a href="#" class="view-btn">View Project</a>
+            </div>
+        </div>
+
+        <div class="portfolio-card">
+            <div class="portfolio-image">
+                Project Image 4
+            </div>
+
+            <div class="portfolio-overlay">
+                <h3>Healthcare Portal</h3>
+                <p>
+                    Patient management and appointment
+                    scheduling platform.
+                </p>
+                <a href="#" class="view-btn">View Project</a>
+            </div>
+        </div>
+
+        <div class="portfolio-card">
+            <div class="portfolio-image">
+                Project Image 5
+            </div>
+
+            <div class="portfolio-overlay">
+                <h3>Learning Management System</h3>
+                <p>
+                    Online education platform with course
+                    tracking and assessments.
+                </p>
+                <a href="#" class="view-btn">View Project</a>
+            </div>
+        </div>
+
+        <div class="portfolio-card">
+            <div class="portfolio-image">
+                Project Image 6
+            </div>
+
+            <div class="portfolio-overlay">
+                <h3>CRM Solution</h3>
+                <p>
+                    Customer relationship management tool
+                    for sales and support teams.
+                </p>
+                <a href="#" class="view-btn">View Project</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="portfolio-cta">
+        <a href="#" class="cta-btn">View Full Portfolio</a>
+    </div>
+
+</section>
+
+</body>
+</html>

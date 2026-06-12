@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Responsive Layout</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+/* Header */
+header{
+    background:#2563eb;
+    color:white;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:bold;
+}
+
+nav{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-weight:500;
+    padding:8px 12px;
+    border-radius:6px;
+}
+
+nav a:hover{
+    background:rgba(255,255,255,0.2);
+}
+
+/* Hero Section */
+.hero{
+    padding:60px 8%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+    align-items:center;
+}
+
+.hero-text h1{
+    font-size:2.5rem;
+    margin-bottom:15px;
+}
+
+.hero-text p{
+    color:#475569;
+    line-height:1.7;
+}
+
+.hero-btn{
+    margin-top:20px;
+    padding:12px 20px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* Image Box */
+.hero-img{
+    height:300px;
+    background:linear-gradient(135deg,#dbeafe,#bfdbfe);
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    color:#1d4ed8;
+}
+
+/* Cards Section */
+.cards{
+    padding:40px 8%;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+/* Footer */
+footer{
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding:25px;
+    margin-top:40px;
+}
+
+/* RESPONSIVE DESIGN */
+@media(max-width:900px){
+
+    .hero{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+
+    nav{
+        justify-content:center;
+        width:100%;
+        margin-top:10px;
+    }
+}
+
+@media(max-width:600px){
+
+    .hero-text h1{
+        font-size:1.8rem;
+    }
+
+    header{
+        text-align:center;
+        flex-direction:column;
+        gap:10px;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">MyWebsite</div>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+</header>
+
+<section class="hero">
+
+    <div class="hero-text">
+        <h1>Build Responsive Web Apps</h1>
+        <p>
+            Create modern, mobile-first designs that adapt perfectly
+            to all screen sizes including phones, tablets, and desktops.
+        </p>
+
+        <button class="hero-btn">Get Started</button>
+    </div>
+
+    <div class="hero-img">
+        Responsive Image Area
+    </div>
+
+</section>
+
+<section class="cards">
+
+    <div class="card">
+        <h3>Fast Performance</h3>
+        <p>Optimized layout for all devices and screen sizes.</p>
+    </div>
+
+    <div class="card">
+        <h3>Modern Design</h3>
+        <p>Clean UI with flexible grid and responsive components.</p>
+    </div>
+
+    <div class="card">
+        <h3>Mobile First</h3>
+        <p>Designed primarily for mobile and scaled upward.</p>
+    </div>
+
+</section>
+
+<footer>
+    © 2026 MyWebsite | All Rights Reserved
+</footer>
+
+</body>
+</html>

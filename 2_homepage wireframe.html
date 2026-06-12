@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homepage Wireframe</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+    padding:20px;
+}
+
+.wireframe{
+    max-width:1200px;
+    margin:auto;
+    border:2px solid #555;
+    background:#fff;
+}
+
+/* Common */
+.box{
+    border:2px dashed #888;
+    background:#f0f0f0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:#555;
+    font-weight:bold;
+}
+
+/* Header */
+.header{
+    height:80px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    border-bottom:2px solid #555;
+}
+
+.logo{
+    width:180px;
+    height:50px;
+}
+
+.nav{
+    width:500px;
+    height:50px;
+}
+
+/* Hero */
+.hero{
+    height:350px;
+    margin:20px;
+}
+
+/* Features */
+.features{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    padding:20px;
+}
+
+.feature{
+    height:180px;
+}
+
+/* Content Section */
+.content{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+    padding:20px;
+}
+
+.main-content{
+    height:300px;
+}
+
+.sidebar{
+    height:300px;
+}
+
+/* Testimonials */
+.testimonials{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    padding:20px;
+}
+
+.testimonial{
+    height:150px;
+}
+
+/* CTA */
+.cta{
+    height:120px;
+    margin:20px;
+}
+
+/* Footer */
+.footer{
+    height:100px;
+    border-top:2px solid #555;
+    margin-top:20px;
+}
+
+/* Responsive */
+@media(max-width:768px){
+
+    .header{
+        flex-direction:column;
+        height:auto;
+        gap:15px;
+    }
+
+    .nav,
+    .logo{
+        width:100%;
+    }
+
+    .features,
+    .content,
+    .testimonials{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="wireframe">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="box logo">LOGO</div>
+        <div class="box nav">NAVIGATION MENU</div>
+    </div>
+
+    <!-- Hero Banner -->
+    <div class="box hero">
+        HERO BANNER / SLIDER
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+        <div class="box feature">FEATURE 1</div>
+        <div class="box feature">FEATURE 2</div>
+        <div class="box feature">FEATURE 3</div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content">
+        <div class="box main-content">
+            MAIN CONTENT AREA
+        </div>
+
+        <div class="box sidebar">
+            SIDEBAR
+        </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="testimonials">
+        <div class="box testimonial">TESTIMONIAL 1</div>
+        <div class="box testimonial">TESTIMONIAL 2</div>
+        <div class="box testimonial">TESTIMONIAL 3</div>
+    </div>
+
+    <!-- Call To Action -->
+    <div class="box cta">
+        CALL TO ACTION SECTION
+    </div>
+
+    <!-- Footer -->
+    <div class="box footer">
+        FOOTER
+    </div>
+
+</div>
+
+</body>
+</html>

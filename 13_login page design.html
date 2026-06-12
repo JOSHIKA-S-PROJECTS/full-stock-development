@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modern Login Page</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    padding:20px;
+}
+
+/* Login Container */
+.login-container{
+    width:100%;
+    max-width:950px;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,0.15);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+}
+
+/* Left Panel */
+.login-banner{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:#fff;
+    padding:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.login-banner h1{
+    font-size:2.8rem;
+    margin-bottom:15px;
+}
+
+.login-banner p{
+    line-height:1.8;
+    opacity:0.9;
+}
+
+.banner-card{
+    margin-top:30px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    padding:20px;
+    border-radius:12px;
+}
+
+/* Right Panel */
+.login-form{
+    padding:60px 50px;
+}
+
+.login-form h2{
+    color:#0f172a;
+    margin-bottom:10px;
+}
+
+.login-form p{
+    color:#64748b;
+    margin-bottom:30px;
+}
+
+.form-group{
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+    color:#334155;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    font-size:15px;
+    outline:none;
+    transition:.3s;
+}
+
+input:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,0.15);
+}
+
+.options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    font-size:14px;
+}
+
+.options a{
+    color:#2563eb;
+    text-decoration:none;
+}
+
+.options a:hover{
+    text-decoration:underline;
+}
+
+.login-btn{
+    width:100%;
+    border:none;
+    background:#2563eb;
+    color:#fff;
+    padding:15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.login-btn:hover{
+    background:#1d4ed8;
+}
+
+.divider{
+    text-align:center;
+    margin:25px 0;
+    color:#94a3b8;
+    position:relative;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    position:absolute;
+    top:50%;
+    width:40%;
+    height:1px;
+    background:#e2e8f0;
+}
+
+.divider::before{
+    left:0;
+}
+
+.divider::after{
+    right:0;
+}
+
+.social-login{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.social-btn{
+    border:1px solid #cbd5e1;
+    padding:12px;
+    border-radius:10px;
+    text-align:center;
+    text-decoration:none;
+    color:#334155;
+    font-weight:500;
+    transition:.3s;
+}
+
+.social-btn:hover{
+    background:#f8fafc;
+}
+
+.signup{
+    text-align:center;
+    margin-top:25px;
+    color:#64748b;
+}
+
+.signup a{
+    color:#2563eb;
+    text-decoration:none;
+    font-weight:600;
+}
+
+/* Responsive */
+@media(max-width:900px){
+
+    .login-container{
+        grid-template-columns:1fr;
+    }
+
+    .login-banner{
+        display:none;
+    }
+}
+
+@media(max-width:500px){
+
+    .login-form{
+        padding:35px 25px;
+    }
+
+    .social-login{
+        grid-template-columns:1fr;
+    }
+
+    .options{
+        flex-direction:column;
+        gap:10px;
+        align-items:flex-start;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="login-container">
+
+    <!-- Left Banner -->
+    <div class="login-banner">
+        <h1>Welcome Back</h1>
+
+        <p>
+            Access your dashboard, manage projects,
+            track analytics, and grow your business
+            from one secure platform.
+        </p>
+
+        <div class="banner-card">
+            <h3>✨ Secure & Reliable</h3>
+            <p>
+                Enterprise-grade security with modern
+                authentication and data protection.
+            </p>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="login-form">
+
+        <h2>Sign In</h2>
+        <p>Enter your credentials to continue.</p>
+
+        <form>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input
+                    type="email"
+                    placeholder="Enter your email"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    placeholder="Enter your password"
+                    required>
+            </div>
+
+            <div class="options">
+                <label>
+                    <input type="checkbox">
+                    Remember Me
+                </label>
+
+                <a href="#">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="login-btn">
+                Sign In
+            </button>
+
+        </form>
+
+        <div class="divider">
+            OR
+        </div>
+
+        <div class="social-login">
+            <a href="#" class="social-btn">
+                Google
+            </a>
+
+            <a href="#" class="social-btn">
+                Microsoft
+            </a>
+        </div>
+
+        <div class="signup">
+            Don't have an account?
+            <a href="#">Create Account</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

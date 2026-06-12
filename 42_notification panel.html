@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notification Panel</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:40px;
+}
+
+.notification-container{
+    position:relative;
+    width:fit-content;
+    margin-left:auto;
+}
+
+.notification-btn{
+    position:relative;
+    background:#ffffff;
+    border:none;
+    padding:12px 15px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:24px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.notification-count{
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    width:22px;
+    height:22px;
+    background:#ef4444;
+    color:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.notification-panel{
+    position:absolute;
+    top:70px;
+    right:0;
+    width:380px;
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    display:none;
+    animation:fadeIn .3s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(-10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.panel-header{
+    background:#2563eb;
+    color:#fff;
+    padding:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.panel-header h3{
+    font-size:18px;
+}
+
+.mark-all{
+    background:rgba(255,255,255,0.2);
+    border:none;
+    color:#fff;
+    padding:6px 12px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.notification-list{
+    max-height:400px;
+    overflow-y:auto;
+}
+
+.notification-item{
+    display:flex;
+    gap:12px;
+    padding:15px;
+    border-bottom:1px solid #eee;
+    transition:.3s;
+}
+
+.notification-item:hover{
+    background:#f8fafc;
+}
+
+.notification-icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    background:#dbeafe;
+}
+
+.notification-content{
+    flex:1;
+}
+
+.notification-content h4{
+    font-size:15px;
+    color:#111827;
+    margin-bottom:4px;
+}
+
+.notification-content p{
+    font-size:13px;
+    color:#6b7280;
+}
+
+.notification-time{
+    font-size:12px;
+    color:#9ca3af;
+    margin-top:5px;
+}
+
+.unread{
+    background:#eff6ff;
+}
+
+.panel-footer{
+    padding:15px;
+    text-align:center;
+}
+
+.panel-footer a{
+    text-decoration:none;
+    color:#2563eb;
+    font-weight:600;
+}
+</style>
+</head>
+<body>
+
+<div class="notification-container">
+
+    <button class="notification-btn" onclick="toggleNotifications()">
+        🔔
+        <span class="notification-count">5</span>
+    </button>
+
+    <div class="notification-panel" id="notificationPanel">
+
+        <div class="panel-header">
+            <h3>Notifications</h3>
+            <button class="mark-all">Mark All Read</button>
+        </div>
+
+        <div class="notification-list">
+
+            <div class="notification-item unread">
+                <div class="notification-icon">📩</div>
+                <div class="notification-content">
+                    <h4>New Message</h4>
+                    <p>You received a message from John.</p>
+                    <div class="notification-time">2 mins ago</div>
+                </div>
+            </div>
+
+            <div class="notification-item unread">
+                <div class="notification-icon">🛒</div>
+                <div class="notification-content">
+                    <h4>Order Confirmed</h4>
+                    <p>Your order #2458 has been confirmed.</p>
+                    <div class="notification-time">15 mins ago</div>
+                </div>
+            </div>
+
+            <div class="notification-item">
+                <div class="notification-icon">🎉</div>
+                <div class="notification-content">
+                    <h4>Congratulations</h4>
+                    <p>You earned a new achievement badge.</p>
+                    <div class="notification-time">1 hour ago</div>
+                </div>
+            </div>
+
+            <div class="notification-item">
+                <div class="notification-icon">🔒</div>
+                <div class="notification-content">
+                    <h4>Security Alert</h4>
+                    <p>New login detected on your account.</p>
+                    <div class="notification-time">3 hours ago</div>
+                </div>
+            </div>
+
+            <div class="notification-item">
+                <div class="notification-icon">📢</div>
+                <div class="notification-content">
+                    <h4>System Update</h4>
+                    <p>New platform features are available.</p>
+                    <div class="notification-time">Yesterday</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="panel-footer">
+            <a href="#">View All Notifications</a>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function toggleNotifications() {
+    const panel = document.getElementById("notificationPanel");
+
+    if(panel.style.display === "block"){
+        panel.style.display = "none";
+    } else {
+        panel.style.display = "block";
+    }
+}
+
+window.addEventListener("click", function(e){
+    const panel = document.getElementById("notificationPanel");
+    const container = document.querySelector(".notification-container");
+
+    if(!container.contains(e.target)){
+        panel.style.display = "none";
+    }
+});
+</script>
+
+</body>
+</html>

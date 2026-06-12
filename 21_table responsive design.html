@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Table</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:40px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#333;
+}
+
+.table-container{
+    background:#fff;
+    border-radius:12px;
+    overflow-x:auto;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+thead{
+    background:#2563eb;
+    color:#fff;
+}
+
+th,
+td{
+    padding:15px 20px;
+    text-align:left;
+    border-bottom:1px solid #e5e7eb;
+}
+
+tbody tr:hover{
+    background:#f8fafc;
+    transition:0.3s;
+}
+
+.status{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+    color:#fff;
+}
+
+.active{
+    background:#16a34a;
+}
+
+.pending{
+    background:#f59e0b;
+}
+
+.inactive{
+    background:#dc2626;
+}
+
+@media(max-width:768px){
+
+    body{
+        padding:20px;
+    }
+
+    th,
+    td{
+        padding:12px;
+        font-size:14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Employee Management Table</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Salary</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>EMP001</td>
+                    <td>John Smith</td>
+                    <td>john@example.com</td>
+                    <td>Development</td>
+                    <td>$4,500</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+
+                <tr>
+                    <td>EMP002</td>
+                    <td>Sarah Wilson</td>
+                    <td>sarah@example.com</td>
+                    <td>Marketing</td>
+                    <td>$3,800</td>
+                    <td><span class="status pending">Pending</span></td>
+                </tr>
+
+                <tr>
+                    <td>EMP003</td>
+                    <td>David Brown</td>
+                    <td>david@example.com</td>
+                    <td>Finance</td>
+                    <td>$5,200</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+
+                <tr>
+                    <td>EMP004</td>
+                    <td>Emma Taylor</td>
+                    <td>emma@example.com</td>
+                    <td>HR</td>
+                    <td>$3,600</td>
+                    <td><span class="status inactive">Inactive</span></td>
+                </tr>
+
+                <tr>
+                    <td>EMP005</td>
+                    <td>Michael Lee</td>
+                    <td>michael@example.com</td>
+                    <td>Sales</td>
+                    <td>$4,000</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

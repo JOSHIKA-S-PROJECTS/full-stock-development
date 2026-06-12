@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero Banner Section</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background:#f8fafc;
+}
+
+/* Hero Section */
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:60px 8%;
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #7c3aed
+    );
+    color:#fff;
+}
+
+.hero-container{
+    width:100%;
+    max-width:1200px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:50px;
+    align-items:center;
+}
+
+/* Content */
+.hero-content h1{
+    font-size:3.5rem;
+    line-height:1.2;
+    margin-bottom:20px;
+}
+
+.hero-content p{
+    font-size:1.1rem;
+    line-height:1.8;
+    margin-bottom:30px;
+    color:#e2e8f0;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    text-decoration:none;
+    padding:14px 28px;
+    border-radius:8px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.btn-primary{
+    background:#fff;
+    color:#2563eb;
+}
+
+.btn-primary:hover{
+    transform:translateY(-3px);
+}
+
+.btn-secondary{
+    border:2px solid #fff;
+    color:#fff;
+}
+
+.btn-secondary:hover{
+    background:#fff;
+    color:#2563eb;
+}
+
+/* Hero Image */
+.hero-image{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.image-card{
+    width:100%;
+    max-width:500px;
+    height:350px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.3);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    font-weight:bold;
+}
+
+/* Responsive */
+@media(max-width:900px){
+
+    .hero-container{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+
+    .hero-content h1{
+        font-size:2.5rem;
+    }
+
+    .hero-buttons{
+        justify-content:center;
+    }
+
+    .image-card{
+        height:280px;
+    }
+}
+
+@media(max-width:500px){
+
+    .hero-content h1{
+        font-size:2rem;
+    }
+
+    .hero-content p{
+        font-size:1rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+
+    <div class="hero-container">
+
+        <!-- Left Content -->
+        <div class="hero-content">
+
+            <h1>
+                Build Modern Digital
+                Experiences Faster
+            </h1>
+
+            <p>
+                Create stunning websites, web applications,
+                and business solutions with responsive,
+                scalable, and user-friendly designs.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">
+                    Get Started
+                </a>
+
+                <a href="#" class="btn btn-secondary">
+                    Learn More
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Right Image Area -->
+        <div class="hero-image">
+
+            <div class="image-card">
+                HERO IMAGE / PRODUCT MOCKUP
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>

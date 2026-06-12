@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testimonials Section</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background:#f8fafc;
+}
+
+/* Section */
+.testimonials{
+    padding:80px 8%;
+    background:#f1f5f9;
+}
+
+.section-header{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.section-header h2{
+    font-size:2.8rem;
+    color:#0f172a;
+    margin-bottom:15px;
+}
+
+.section-header p{
+    max-width:700px;
+    margin:auto;
+    color:#64748b;
+    line-height:1.7;
+}
+
+/* Grid */
+.testimonial-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:30px;
+}
+
+/* Card */
+.testimonial-card{
+    background:#ffffff;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    transition:0.3s ease;
+    position:relative;
+}
+
+.testimonial-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.12);
+}
+
+.quote-icon{
+    font-size:50px;
+    color:#2563eb;
+    line-height:1;
+    margin-bottom:15px;
+}
+
+.testimonial-text{
+    color:#475569;
+    line-height:1.8;
+    margin-bottom:25px;
+}
+
+.client{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.client-avatar{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.client-info h4{
+    color:#0f172a;
+    margin-bottom:4px;
+}
+
+.client-info p{
+    color:#64748b;
+    font-size:14px;
+}
+
+/* Rating */
+.rating{
+    margin-top:20px;
+    color:#f59e0b;
+    font-size:18px;
+}
+
+/* Statistics */
+.stats{
+    margin-top:70px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:25px;
+    text-align:center;
+}
+
+.stat-box{
+    background:#ffffff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.06);
+}
+
+.stat-box h3{
+    font-size:2rem;
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+.stat-box p{
+    color:#64748b;
+}
+
+/* Responsive */
+@media(max-width:768px){
+
+    .testimonials{
+        padding:60px 5%;
+    }
+
+    .section-header h2{
+        font-size:2rem;
+    }
+
+    .testimonial-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+<body>
+
+<section class="testimonials">
+
+    <!-- Section Heading -->
+    <div class="section-header">
+        <h2>What Our Clients Say</h2>
+        <p>
+            Trusted by businesses worldwide. Here's what our
+            customers have to say about our services and solutions.
+        </p>
+    </div>
+
+    <!-- Testimonials Grid -->
+    <div class="testimonial-grid">
+
+        <!-- Testimonial 1 -->
+        <div class="testimonial-card">
+
+            <div class="quote-icon">❝</div>
+
+            <p class="testimonial-text">
+                The team delivered an exceptional web application
+                that exceeded our expectations. Their professionalism
+                and technical expertise were outstanding.
+            </p>
+
+            <div class="client">
+                <div class="client-avatar">JS</div>
+
+                <div class="client-info">
+                    <h4>John Smith</h4>
+                    <p>CEO, Tech Solutions</p>
+                </div>
+            </div>
+
+            <div class="rating">
+                ★★★★★
+            </div>
+
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testimonial-card">
+
+            <div class="quote-icon">❝</div>
+
+            <p class="testimonial-text">
+                Excellent service from start to finish. The project
+                was completed on time and significantly improved
+                our business operations.
+            </p>
+
+            <div class="client">
+                <div class="client-avatar">SJ</div>
+
+                <div class="client-info">
+                    <h4>Sarah Johnson</h4>
+                    <p>Marketing Director</p>
+                </div>
+            </div>
+
+            <div class="rating">
+                ★★★★★
+            </div>
+
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="testimonial-card">
+
+            <div class="quote-icon">❝</div>
+
+            <p class="testimonial-text">
+                Their design and development skills are remarkable.
+                We received a modern, scalable solution that our
+                customers absolutely love.
+            </p>
+
+            <div class="client">
+                <div class="client-avatar">MB</div>
+
+                <div class="client-info">
+                    <h4>Michael Brown</h4>
+                    <p>Founder, Startup Hub</p>
+                </div>
+            </div>
+
+            <div class="rating">
+                ★★★★★
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats">
+
+        <div class="stat-box">
+            <h3>500+</h3>
+            <p>Projects Completed</p>
+        </div>
+
+        <div class="stat-box">
+            <h3>200+</h3>
+            <p>Happy Clients</p>
+        </div>
+
+        <div class="stat-box">
+            <h3>98%</h3>
+            <p>Client Satisfaction</p>
+        </div>
+
+        <div class="stat-box">
+            <h3>10+</h3>
+            <p>Years Experience</p>
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>
