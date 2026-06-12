@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mega Menu Navigation</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+/* Navbar */
+.navbar{
+    background:#111827;
+    padding:0 40px;
+    position:relative;
+}
+
+.nav-container{
+    max-width:1400px;
+    margin:auto;
+}
+
+.nav-menu{
+    list-style:none;
+    display:flex;
+    align-items:center;
+}
+
+.nav-menu > li{
+    position:relative;
+}
+
+.nav-menu > li > a{
+    display:block;
+    color:#fff;
+    text-decoration:none;
+    padding:20px 24px;
+    transition:0.3s;
+}
+
+.nav-menu > li > a:hover{
+    background:#1f2937;
+}
+
+/* Mega Menu */
+.mega-menu{
+    position:absolute;
+    left:0;
+    top:100%;
+    width:1000px;
+    background:#fff;
+    padding:30px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+    border-radius:0 0 12px 12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(15px);
+    transition:0.3s ease;
+    z-index:100;
+}
+
+.has-mega:hover .mega-menu{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+}
+
+.menu-column h3{
+    color:#2563eb;
+    margin-bottom:15px;
+    font-size:18px;
+}
+
+.menu-column ul{
+    list-style:none;
+}
+
+.menu-column ul li{
+    margin-bottom:10px;
+}
+
+.menu-column ul li a{
+    text-decoration:none;
+    color:#4b5563;
+    transition:0.3s;
+}
+
+.menu-column ul li a:hover{
+    color:#2563eb;
+    padding-left:5px;
+}
+
+/* Featured Box */
+.featured-box{
+    background:#eff6ff;
+    padding:20px;
+    border-radius:10px;
+}
+
+.featured-box h4{
+    color:#1e3a8a;
+    margin-bottom:10px;
+}
+
+.featured-box p{
+    color:#475569;
+    font-size:14px;
+    margin-bottom:15px;
+}
+
+.featured-box button{
+    padding:10px 18px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* Hero */
+.hero{
+    text-align:center;
+    padding:100px 20px;
+}
+
+.hero h1{
+    font-size:48px;
+    color:#111827;
+    margin-bottom:15px;
+}
+
+.hero p{
+    color:#6b7280;
+    font-size:18px;
+}
+
+/* Mobile */
+.menu-toggle{
+    display:none;
+    color:white;
+    font-size:30px;
+    padding:15px 0;
+    cursor:pointer;
+}
+
+@media(max-width:992px){
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .nav-menu{
+        display:none;
+        flex-direction:column;
+        width:100%;
+    }
+
+    .nav-menu.active{
+        display:flex;
+    }
+
+    .nav-menu > li{
+        width:100%;
+    }
+
+    .mega-menu{
+        position:static;
+        width:100%;
+        grid-template-columns:1fr;
+        opacity:1;
+        visibility:visible;
+        display:none;
+        transform:none;
+        box-shadow:none;
+        padding:20px;
+    }
+
+    .has-mega.active .mega-menu{
+        display:grid;
+    }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+            ☰
+        </div>
+
+        <ul class="nav-menu" id="navMenu">
+
+            <li><a href="#">Home</a></li>
+
+            <li class="has-mega">
+                <a href="#" onclick="toggleMega(event,this)">
+                    Products ▼
+                </a>
+
+                <div class="mega-menu">
+
+                    <div class="menu-column">
+                        <h3>Web Solutions</h3>
+                        <ul>
+                            <li><a href="#">Website Builder</a></li>
+                            <li><a href="#">Hosting</a></li>
+                            <li><a href="#">Domain Services</a></li>
+                            <li><a href="#">Cloud Storage</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-column">
+                        <h3>Business Tools</h3>
+                        <ul>
+                            <li><a href="#">CRM Software</a></li>
+                            <li><a href="#">ERP System</a></li>
+                            <li><a href="#">HR Management</a></li>
+                            <li><a href="#">Accounting Tools</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-column">
+                        <h3>Marketing</h3>
+                        <ul>
+                            <li><a href="#">SEO Platform</a></li>
+                            <li><a href="#">Email Marketing</a></li>
+                            <li><a href="#">Social Media Tools</a></li>
+                            <li><a href="#">Analytics Suite</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="featured-box">
+                        <h4>🚀 New Launch</h4>
+                        <p>
+                            Discover our latest AI-powered business
+                            automation platform for enterprises.
+                        </p>
+                        <button>Learn More</button>
+                    </div>
+
+                </div>
+            </li>
+
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+
+        </ul>
+
+    </div>
+</nav>
+
+<section class="hero">
+    <h1>Mega Menu Design</h1>
+    <p>
+        Modern responsive navigation with a professional multi-column mega menu.
+    </p>
+</section>
+
+<script>
+function toggleMenu(){
+    document.getElementById("navMenu")
+            .classList.toggle("active");
+}
+
+function toggleMega(event, element){
+    if(window.innerWidth <= 992){
+        event.preventDefault();
+        element.parentElement.classList.toggle("active");
+    }
+}
+</script>
+
+</body>
+</html>

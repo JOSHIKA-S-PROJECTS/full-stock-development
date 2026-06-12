@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breadcrumb Navigation</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:40px;
+}
+
+/* Breadcrumb Container */
+.breadcrumb-container{
+    background:#ffffff;
+    padding:18px 25px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    max-width:900px;
+    margin:auto;
+}
+
+/* Breadcrumb */
+.breadcrumb{
+    list-style:none;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+}
+
+.breadcrumb li{
+    display:flex;
+    align-items:center;
+}
+
+/* Links */
+.breadcrumb li a{
+    text-decoration:none;
+    color:#2563eb;
+    font-weight:500;
+    transition:0.3s;
+}
+
+.breadcrumb li a:hover{
+    color:#1d4ed8;
+}
+
+/* Separator */
+.breadcrumb li:not(:last-child)::after{
+    content:"›";
+    margin:0 12px;
+    color:#94a3b8;
+    font-size:18px;
+}
+
+/* Active Page */
+.breadcrumb li.active{
+    color:#475569;
+    font-weight:600;
+}
+
+/* Demo Content */
+.content{
+    max-width:900px;
+    margin:30px auto;
+    background:#fff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.content h1{
+    margin-bottom:15px;
+    color:#1e293b;
+}
+
+.content p{
+    color:#64748b;
+    line-height:1.7;
+}
+
+/* Mobile Responsive */
+@media(max-width:768px){
+    .breadcrumb{
+        font-size:14px;
+    }
+
+    .breadcrumb li:not(:last-child)::after{
+        margin:0 8px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Breadcrumb Navigation -->
+<div class="breadcrumb-container">
+    <ul class="breadcrumb">
+        <li><a href="#">🏠 Home</a></li>
+        <li><a href="#">Products</a></li>
+        <li><a href="#">Electronics</a></li>
+        <li><a href="#">Mobile Phones</a></li>
+        <li class="active">iPhone 16 Pro</li>
+    </ul>
+</div>
+
+<!-- Page Content -->
+<div class="content">
+    <h1>iPhone 16 Pro</h1>
+    <p>
+        This page demonstrates a modern breadcrumb navigation
+        component. Breadcrumbs help users understand their
+        current location within a website hierarchy and improve
+        navigation experience.
+    </p>
+</div>
+
+</body>
+</html>

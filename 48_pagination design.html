@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pagination Design</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#f4f6f9;
+}
+
+/* Pagination Container */
+.pagination{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+/* Pagination Buttons */
+.pagination a{
+    text-decoration:none;
+    width:45px;
+    height:45px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:10px;
+    background:#ffffff;
+    color:#333;
+    font-weight:bold;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    transition:all 0.3s ease;
+}
+
+/* Hover Effect */
+.pagination a:hover{
+    background:#4f46e5;
+    color:white;
+    transform:translateY(-3px);
+}
+
+/* Active Page */
+.pagination a.active{
+    background:#4f46e5;
+    color:white;
+}
+
+/* Previous & Next Buttons */
+.pagination a.nav{
+    width:auto;
+    padding:0 18px;
+}
+
+@media(max-width:600px){
+    .pagination{
+        gap:5px;
+    }
+
+    .pagination a{
+        width:40px;
+        height:40px;
+        font-size:14px;
+    }
+
+    .pagination a.nav{
+        padding:0 12px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="pagination">
+    <a href="#" class="nav">❮ Prev</a>
+    <a href="#">1</a>
+    <a href="#">2</a>
+    <a href="#" class="active">3</a>
+    <a href="#">4</a>
+    <a href="#">5</a>
+    <a href="#" class="nav">Next ❯</a>
+</div>
+
+</body>
+</html>
